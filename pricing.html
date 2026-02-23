@@ -1,435 +1,849 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="Transparent pricing for AI systems engineering – flexible packages for every need." />
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link rel="shortcut icon" href="assets/favicon.ico" />
+  <meta name="description" content="Transparent architecture provisioning for AI systems engineering." />
+  <title>Pricing | MacroInception.com</title>
 
-  <!-- PNG favicons (various sizes) -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-
-  <!-- Apple Touch Icon (iOS home screen) -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-
-  <!-- Android Chrome M39+ (adaptive icons) -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
-  <title>Pricing | MacroInception.com</title>
-  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              400: '#94a3b8',
+              500: '#64748b',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            royal: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hero-anim {
+      opacity: 0;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-1 {
+      animation-delay: 0.15s;
+    }
+
+    .hero-anim-2 {
+      animation-delay: 0.30s;
+    }
+
+    .hero-anim-3 {
+      animation-delay: 0.50s;
+    }
+
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Pricing tier card scroll-reveal */
+    .tier-card {
+      opacity: 0;
+      transform: translateY(36px) scale(0.97);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tier-card.revealed {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tier-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .65s cubic-bezier(.22, 1, .36, 1), transform .65s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flow-scale {
+      opacity: 0;
+      transform: scale(.88);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .flow-cta {
+      opacity: 0;
+      transform: scale(.92) translateY(20px);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* ── Bento-card hover (scan-line + glow) ────────── */
+    .bento-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 30px rgba(59, 130, 246, .12), 0 8px 32px rgba(0, 0, 0, .35) !important;
+      transform: translateY(-3px) !important;
+    }
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .5), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    /* ── Why-card hover ─────────────────────────────── */
+    .why-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .45), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, .10), 0 6px 24px rgba(0, 0, 0, .3) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flow-reveal,
+      .flow-scale,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+
+      .why-card::before,
+      .bento-card::before {
+        display: none;
+      }
+
+      .bento-card:hover,
+      .why-card:hover {
+        transform: none !important;
+      }
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-anim {
+        opacity: 1 !important;
+        animation: none !important;
+      }
+    }
+
+    /* ── Shimmer Animation for Recommended Badge ── */
+    @keyframes shimmer {
+      0% {
+        transform: translateX(-100%) skewX(-15deg);
+      }
+
+      100% {
+        transform: translateX(200%) skewX(-15deg);
+      }
+    }
+
+    .animate-shimmer {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .animate-shimmer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transform: translateX(-100%) skewX(-15deg);
+      animation: shimmer 2.5s infinite;
+    }
+  </style>
 </head>
 
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
+<body
+  class="bg-navy-950 font-sans text-navy-400 antialiased selection:bg-royal-500/30 selection:text-white flex flex-col min-h-screen">
 
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <!-- Particles Background Base -->
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full"></div>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="case-studies.html">Case Studies</a>
-      <a href="pricing.html" class="active">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
-  </header>
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-navy-950/80 border-b border-white/10"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </a>
+        </div>
 
-  <!-- Overlay for mobile menu -->
-  <div class="nav-overlay"></div>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Home</a>
+          <a href="services.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Services</a>
+          <a href="case-studies.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Case
+            Studies</a>
+          <a href="pricing.html"
+            class="text-sm font-medium text-white transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-royal-500">Pricing</a>
+          <!-- Company Dropdown -->
+          <div class="relative group">
+            <button
+              class="text-navy-400 group-hover:text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none">
+              Company
+              <svg class="w-3.5 h-3.5 text-navy-500 group-hover:text-royal-400 transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div
+              class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <div class="absolute -top-4 left-0 w-full h-4"></div>
+              <div class="p-2 flex flex-col">
+                <a href="about.html"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                  </svg>
+                  About Us
+                </a>
+                <a href="#"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                    </path>
+                  </svg>
+                  Blog (Soon)
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html"
+            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent rounded-lg hover:bg-royal-500 shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+            Contact Us
+          </a>
+        </div>
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>
-          Transparent, flexible pricing for your AI infrastructure needs
-        </h2>
-        <p>
-          Whether you're launching a prototype or scaling a production system,
-          we have engagement models that fit your budget and timeline.
-        </p>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+        </button>
       </div>
-      <img class="hero-img" src="assets/pricing.jpeg" alt="Planning and Strategy" />
-    </section>
+    </div>
+  </nav>
 
-    <!-- Pricing Tiers -->
-    <section class="pricing">
-      <h3>Engagement Models</h3>
-      <p>
-        Choose the model that best fits your project requirements and budget.
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    <a href="index.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
+    <a href="services.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Services</a>
+    <a href="case-studies.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Case Studies</a>
+    <a href="pricing.html" class="text-2xl font-heading font-semibold text-royal-400 transition-colors">Pricing</a>
+    <!-- Company Section for Mobile -->
+    <a href="about.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
+    <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+      (Soon)</a>
+    <a href="contact.html"
+      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+      Us</a>
+  </div>
+
+  <main class="flex-grow relative z-10 bg-transparent pt-32 pb-24">
+
+    <!-- Hero / Intro -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
+      <div
+        class="hero-anim hero-anim-1 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-royal-900/30 text-royal-400 text-xs font-mono font-semibold uppercase tracking-wider border border-royal-500/20 mb-8 mt-12">
+        <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span>
+        System Allocation
+      </div>
+      <h1 class="hero-anim hero-anim-2 text-5xl md:text-7xl font-bold font-heading text-white tracking-tight mb-8">
+        Transparent <span class="bg-gradient-to-r from-royal-400 to-cyan-300 bg-clip-text text-transparent">Architecture
+          Provisioning</span>.
+      </h1>
+      <p class="hero-anim hero-anim-3 text-xl text-navy-400 leading-relaxed max-w-2xl mx-auto">
+        Compute power dictates pricing. Select the deployment tier that precisely aligns with your infrastructure
+        throughput requirements and immediate operational timelines.
       </p>
+    </section>
 
-      <div class="cards">
-        <div class="card">
-          <h4>Consulting</h4>
-          <div class="price">$250<span>/hour</span></div>
-          <p>Expert guidance and technical advisory</p>
-          <ul>
-            <li>Architecture review & recommendations</li>
-            <li>Technology stack evaluation</li>
-            <li>Performance audits & optimization</li>
-            <li>Team training & workshops</li>
-            <li>Best practices documentation</li>
-            <li>Strategic roadmap planning</li>
+    <!-- Pricing / Provisioning Panels -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+
+        <!-- Tier 1: Consulting -->
+        <div
+          class="bento-card group tier-card flex flex-col bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 transition-colors border border-navy-800 rounded-2xl p-8 relative mt-0 lg:mt-8 mb-0 lg:mb-8"
+          style="transition-delay:0s">
+          <h3 class="text-2xl font-bold font-heading text-white mb-2">Advisory Access</h3>
+          <p class="text-navy-400 text-sm mb-6 h-10">Expert topological guidance and technical auditing.</p>
+          <div class="flex items-baseline gap-2 mb-8 border-b border-navy-800 pb-8">
+            <span class="text-3xl font-mono text-white">$250</span>
+            <span class="text-navy-500 font-mono text-sm uppercase">/ hour</span>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Architecture review & recommendations</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Technology stack evaluation</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Performance audits & optimization</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Strategic roadmap planning</span>
+            </li>
           </ul>
-          <a href="contact.html" class="btn-primary">Get Started</a>
+          <a href="contact.html"
+            class="w-full inline-flex justify-center items-center py-3 px-4 border border-navy-700 rounded-lg text-sm font-medium text-white hover:bg-navy-800 transition-colors">Initiate
+            Audit</a>
         </div>
 
-        <div class="card featured">
-          <h4>Project-Based</h4>
-          <div class="price">Custom<span>/project</span></div>
-          <p>Fixed-scope implementations</p>
-          <ul>
-            <li>Defined scope & deliverables</li>
-            <li>Fixed timeline & budget</li>
-            <li>Model development & fine-tuning</li>
-            <li>Deployment & infrastructure setup</li>
-            <li>Complete documentation</li>
-            <li>Knowledge transfer & training</li>
-            <li>30 days post-launch support</li>
+        <!-- Tier 2: Project-Based (Featured / Enterprise) -->
+        <div
+          class="bento-card group tier-card flex flex-col bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 transition-colors border border-royal-500/50 rounded-2xl p-8 shadow-[0_0_30px_rgba(59,130,246,0.15)] relative transform lg:-translate-y-4 z-10"
+          style="transition-delay:0.15s; overflow: visible !important;">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <span
+              class="animate-shimmer inline-block bg-royal-600 text-white text-xs font-bold uppercase tracking-widest py-1 px-4 rounded-full border border-royal-400 shadow-[0_0_10px_rgba(59,130,246,0.5)]">Recommended
+              Instance</span>
+          </div>
+          <h3 class="text-2xl font-bold font-heading text-white mb-2">Implementation</h3>
+          <p class="text-royal-200 text-sm mb-6 h-10">Fixed-scope, end-to-end production deployments.</p>
+          <div class="flex items-baseline gap-2 mb-8 border-b border-royal-500/30 pb-8">
+            <span class="text-3xl font-mono text-white">Custom</span>
+            <span class="text-royal-400 font-mono text-sm uppercase">/ Project Payload</span>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">Defined scope & rigid deliverables</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">Fixed timeline & capital parameters</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">Model development & fine-tuning</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">Deployment & infrastructure setup</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">Knowledge transfer & extensive docs</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-white">30 days post-launch SLAs</span>
+            </li>
           </ul>
-          <a href="contact.html" class="btn-primary">Request Quote</a>
+          <a href="contact.html"
+            class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent hover:bg-royal-500 shadow-[0_0_15px_rgba(37,99,235,0.4)]">Request
+            Specification</a>
         </div>
 
-        <div class="card">
-          <h4>Retainer</h4>
-          <div class="price">$15K+<span>/month</span></div>
-          <p>Ongoing development & optimization</p>
-          <ul>
-            <li>Dedicated team allocation</li>
-            <li>Continuous development & improvements</li>
-            <li>Priority support (response within 4 hours)</li>
-            <li>Monthly optimization reviews</li>
-            <li>Flexible scope adjustments</li>
-            <li>Performance monitoring & reporting</li>
-            <li>Proactive system maintenance</li>
+        <!-- Tier 3: Retainer -->
+        <div
+          class="bento-card group tier-card flex flex-col bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 transition-colors border border-navy-800 rounded-2xl p-8 relative mt-0 lg:mt-8 mb-0 lg:mb-8"
+          style="transition-delay:0.3s">
+          <h3 class="text-2xl font-bold font-heading text-white mb-2">Ops & Maintenance</h3>
+          <p class="text-navy-400 text-sm mb-6 h-10">Ongoing system evolution and priority incident resolution.</p>
+          <div class="flex items-baseline gap-2 mb-8 border-b border-navy-800 pb-8">
+            <span class="text-3xl font-mono text-white">$15K+</span>
+            <span class="text-navy-500 font-mono text-sm uppercase">/ month</span>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Dedicated engineering unit allocation</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Continuous iterative development</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Priority support (< 4h response)</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <svg class="w-5 h-5 text-royal-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+              </svg>
+              <span class="text-sm text-navy-300">Proactive system & hardware maintenance</span>
+            </li>
           </ul>
-          <a href="contact.html" class="btn-primary">Contact Us</a>
+          <a href="contact.html"
+            class="w-full inline-flex justify-center items-center py-3 px-4 border border-navy-700 rounded-lg text-sm font-medium text-white hover:bg-navy-800 transition-colors">Establish
+            Retainer</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Included Protocols Bento -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <div class="mb-12 flow-reveal">
+        <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">Default Provisioning
+        </h2>
+        <h3 class="text-4xl font-bold font-heading text-white tracking-tight">Included Protocols.</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-scale p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10">
+              </path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Architecture &amp; Design</h4>
+          <p class="text-sm text-navy-400">Comprehensive system diagrams validating scalability and hardware throughput
+            prior to coding.</p>
+        </div>
+
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-scale p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50"
+          style="transition-delay:0.12s">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Development &amp; Testing</h4>
+          <p class="text-sm text-navy-400">Production-grade logic fused with exhaustive load testing and unit
+            validation.</p>
+        </div>
+
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-scale p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50"
+          style="transition-delay:0.24s">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Deployment &amp; CI/CD</h4>
+          <p class="text-sm text-navy-400">Automated integration pipelines connecting directly to your staging and
+            production environments.</p>
+        </div>
+
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-scale p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50"
+          style="transition-delay:0.36s">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+              </path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Technical Documentation</h4>
+          <p class="text-sm text-navy-400">Crystal-clear Swagger/OpenAPI references, topological schematics, and
+            operational runbooks.</p>
+        </div>
+
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50 hover:border-royal-500/30">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z">
+              </path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Knowledge Transfer</h4>
+          <p class="text-sm text-navy-400">Intensive onboarding matrices ensuring your internal personnel can
+            independently pilot the systems.</p>
+        </div>
+
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-scale p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950/50"
+          style="transition-delay:0.48s">
+          <div class="w-10 h-10 rounded bg-navy-800 flex items-center justify-center mb-6">
+            <svg class="w-5 h-5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+              </path>
+            </svg>
+          </div>
+          <h4 class="text-white font-bold mb-3">Post-Launch SLAs</h4>
+          <p class="text-sm text-navy-400">A strict 30-day warranty ensuring flawless continuity post-deployment.</p>
         </div>
       </div>
     </section>
 
-    <!-- Project Pricing Examples -->
-    <!-- <section>
-        <h3>Typical Project Costs</h3>
-        <p>Approximate pricing ranges for common implementations.</p>
-
-        <div class="cards">
-          <div class="card">
-            <h4>LLM Fine-tuning & Deployment</h4>
-   
-            <ul>
-              <li>Custom dataset preparation</li>
-              <li>Model fine-tuning & evaluation</li>
-              <li>vLLM or Triton deployment</li>
-              <li>API integration</li>
-              <li>Load testing & optimization</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 6-12 weeks
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>Vector Search System</h4>
-
-            <ul>
-              <li>Vector database setup</li>
-              <li>Embedding model deployment</li>
-              <li>Indexing pipeline</li>
-              <li>Search API development</li>
-              <li>Performance tuning</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 8-14 weeks
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>Custom ML Pipeline</h4>
-
-            <ul>
-              <li>End-to-end pipeline development</li>
-              <li>Data preprocessing & feature engineering</li>
-              <li>Model training infrastructure</li>
-              <li>MLOps setup & automation</li>
-              <li>Monitoring & alerting</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 10-16 weeks
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>Computer Vision System</h4>
-        <ul>
-              <li>Custom model development</li>
-              <li>Data annotation & augmentation</li>
-              <li>Training & optimization</li>
-              <li>Edge deployment (optional)</li>
-              <li>Real-time processing pipeline</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 12-20 weeks
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>Distributed Data Pipeline</h4>
-   
-            <ul>
-              <li>PySpark pipeline development</li>
-              <li>ETL workflow automation</li>
-              <li>Data quality monitoring</li>
-              <li>Kubernetes deployment</li>
-              <li>Optimization & scaling</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 6-10 weeks
-            </p>
-          </div>
-
-          <div class="card">
-            <h4>RAG System Implementation</h4>
-        
-            <ul>
-              <li>Document processing pipeline</li>
-              <li>Chunking & embedding strategy</li>
-              <li>Vector store integration</li>
-              <li>Query optimization</li>
-              <li>LLM integration & API</li>
-            </ul>
-            <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-              Timeline: 6-12 weeks
-            </p>
-          </div>
-        </div>
-      </section> -->
-
-    <!-- What's Included -->
-    <section>
-      <h3>What's Included in Every Project</h3>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Architecture & Design</h4>
-          <p>
-            Comprehensive system design with scalability and performance
-            considerations.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Development & Testing</h4>
-          <p>
-            Production-grade code with comprehensive testing and validation.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Deployment & Integration</h4>
-          <p>
-            Complete deployment with CI/CD pipelines and monitoring setup.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Documentation</h4>
-          <p>
-            Technical documentation, API references, and operational guides.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Knowledge Transfer</h4>
-          <p>
-            Training sessions and handover to ensure your team can maintain
-            the system.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Post-Launch Support</h4>
-          <p>
-            30 days of support to ensure smooth operation after deployment.
-          </p>
-        </div>
+    <!-- Supplemental / Add-ons -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <div class="mb-12 flow-reveal">
+        <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">Supplemental Modules
+        </h2>
+        <h3 class="text-4xl font-bold font-heading text-white tracking-tight">Optional Add-Ons.</h3>
       </div>
-    </section>
 
-    <!-- Add-Ons -->
-    <section>
-      <h3>Optional Add-Ons</h3>
-      <p>Extend your project with additional services.</p>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Extended Support</h4>
-          <p>Beyond the standard 30 days</p>
-          <!-- <div class="price" style="font-size: 1.5rem; margin: 1rem 0">
-              $2K+<span>/month</span>
-            </div> -->
-          <ul>
-            <li>Priority bug fixes</li>
-            <li>Performance monitoring</li>
-            <li>Security updates</li>
-            <li>Consultation hours included</li>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-reveal border border-navy-800 rounded-xl bg-navy-950/50 hover:bg-navy-900 p-6 flex flex-col h-full">
+          <h4 class="text-white font-bold mb-1">Extended Support</h4>
+          <p class="text-xs text-navy-400 mb-4 font-mono uppercase tracking-widest">Beyond standard SLAs</p>
+          <ul class="space-y-3 mt-auto border-t border-navy-800 pt-4">
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Priority vulnerability patching</li>
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Performance telemetry arrays</li>
           </ul>
         </div>
-
-        <div class="card">
-          <h4>Team Training</h4>
-          <p>Custom workshops for your team</p>
-          <!-- <div class="price" style="font-size: 1.5rem; margin: 1rem 0">
-              $5K+<span>/session</span>
-            </div> -->
-          <ul>
-            <li>Hands-on workshops</li>
-            <li>Best practices training</li>
-            <li>Code review sessions</li>
-            <li>Custom curriculum</li>
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-reveal border border-navy-800 rounded-xl bg-navy-950/50 hover:bg-navy-900 p-6 flex flex-col h-full"
+          style="transition-delay:0.12s">
+          <h4 class="text-white font-bold mb-1">Advanced Training</h4>
+          <p class="text-xs text-navy-400 mb-4 font-mono uppercase tracking-widest">Bespoke technical education</p>
+          <ul class="space-y-3 mt-auto border-t border-navy-800 pt-4">
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Hands-on architectural workshops</li>
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Critical code review sessions</li>
           </ul>
         </div>
-
-        <div class="card">
-          <h4>Performance Optimization</h4>
-          <p>Post-deployment improvements</p>
-          <!-- <div class="price" style="font-size: 1.5rem; margin: 1rem 0">
-              $10K+<span>/engagement</span>
-            </div> -->
-          <ul>
-            <li>Latency optimization</li>
-            <li>Cost reduction analysis</li>
-            <li>Throughput improvements</li>
-            <li>Resource optimization</li>
+        <div
+          class="why-card group hover:-translate-y-1 transition-all duration-300 flow-reveal border border-navy-800 rounded-xl bg-navy-950/50 hover:bg-navy-900 p-6 flex flex-col h-full"
+          style="transition-delay:0.24s">
+          <h4 class="text-white font-bold mb-1">Iterative Optimization</h4>
+          <p class="text-xs text-navy-400 mb-4 font-mono uppercase tracking-widest">Post-deployment acceleration</p>
+          <ul class="space-y-3 mt-auto border-t border-navy-800 pt-4">
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Deep latency debugging</li>
+            <li class="flex items-center gap-2 text-sm text-navy-300"><span
+                class="w-1 h-1 bg-royal-500 rounded-full"></span>Compute cost reduction sweeps</li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- FAQ -->
-    <section>
-      <h3>Frequently Asked Questions</h3>
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+      <div class="mb-12 text-center flow-reveal">
+        <h3 class="text-3xl font-bold font-heading text-white tracking-tight">Frequently Asked Questions</h3>
+      </div>
+      <div class="space-y-6">
 
-      <div class="cards">
-        <div class="card">
-          <h4>How do you estimate project costs?</h4>
-          <p>
-            We provide detailed estimates after an initial consultation where
-            we understand your requirements, existing infrastructure, and
-            performance goals. Our estimates include the total number of hours
-            required to spend upon development, testing, deployment, and
-            documentation.
+        <div class="bg-navy-900/30 border border-navy-800 rounded-xl p-6 hover:border-navy-600 transition-colors">
+          <h4 class="text-white font-bold mb-2">How are project payloads estimated?</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">
+            We undergo a rigid initial consultation auditing your precise data structures and throughput targets.
+            Estimates are then scoped against required man-hours spanning architecture, testing, and deployment phases.
           </p>
         </div>
 
-        <div class="card">
-          <h4>What payment terms do you offer?</h4>
-          <p>
-            For project-based work, we typically split payments into
-            milestones (e.g., 30% upfront, 40% at halfway, 30% on completion).
-            Retainers are billed monthly. We're flexible and can discuss terms
-            that work for your organization.
+        <div class="bg-navy-900/30 border border-navy-800 rounded-xl p-6 hover:border-navy-600 transition-colors">
+          <h4 class="text-white font-bold mb-2">What are your capital transfer terms?</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">
+            Project implementations utilize milestone logic (e.g. 30% initialization, 40% beta delivery, 30% upon SLA
+            commencement). Ops Retainers operate on fixed monthly cycles.
           </p>
         </div>
 
-        <div class="card">
-          <h4>Do you offer discounts for longer engagements?</h4>
-          <p>
-            Yes, we offer volume discounts for extended retainer agreements
-            (6+ months) and multi-project. Contact us to discuss custom
-            pricing.
+        <div class="bg-navy-900/30 border border-navy-800 rounded-xl p-6 hover:border-navy-600 transition-colors">
+          <h4 class="text-white font-bold mb-2">Can operations integrate with our existing engineering units?</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">
+            Absolutely. We frequently deploy alongside internal capability verticals, providing the highly-specialized
+            ML architecture while integrating seamlessly into your existing Git / CI/CD methodologies.
           </p>
         </div>
 
-        <div class="card">
-          <h4>What if the scope changes mid-project?</h4>
-          <p>
-            We understand that requirements evolve. For project-based work, we
-            use a formal change request process with transparent pricing. For
-            retainers, scope flexibility is built in.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Do you provide maintenance after delivery?</h4>
-          <p>
-            We offer extended maintenance contracts for ongoing support,
-            monitoring, and optimization.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Can you work with our existing team?</h4>
-          <p>
-            Absolutely. We often work alongside client teams, providing
-            specialized expertise while ensuring knowledge transfer. We adapt
-            to your development processes and tools.
-          </p>
-        </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="text-center">
-      <h3>Ready to Discuss Your Project?</h3>
-      <p>
-        Get a custom quote tailored to your specific requirements and budget.
-      </p>
-      <div class="hero-buttons" style="margin-top: 2rem; display: flex; justify-content: center">
-        <a href="contact.html" class="btn-primary">Request a Quote</a>
-        <a href="services.html" class="btn-outline" style="margin-left: 1rem">Explore Services</a>
-      </div>
-    </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
+  <!-- Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
         </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
       </div>
     </div>
   </footer>
-  <script src="js/script.js"></script>
+
+  <!-- Scripts -->
+  <script>
+    // Hamburger -> X + Mobile Menu Toggle
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    let isMenuOpen = false;
+
+    btn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      btn.classList.toggle('open', isMenuOpen);
+      if (isMenuOpen) {
+        menu.classList.remove('hidden');
+        menu.style.display = 'flex';
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu.classList.add('opacity-0');
+        setTimeout(() => { menu.classList.add('hidden'); menu.style.display = ''; }, 300);
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
+  <!-- Flow-reveal scroll animations observer -->
+  <script>
+    (function () {
+      const els = document.querySelectorAll('.flow-reveal,.flow-scale,.flow-cta');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+      els.forEach(el => obs.observe(el));
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
+
+  <!-- Pricing tier card scroll-reveal observer -->
+  <script>
+    (function () {
+      const tierCards = document.querySelectorAll('.tier-card');
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('revealed');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.12 });
+      tierCards.forEach(card => obs.observe(card));
+    })();
+  </script>
 </body>
 
 </html>

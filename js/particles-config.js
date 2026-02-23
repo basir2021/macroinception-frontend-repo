@@ -20,9 +20,9 @@ particlesJS("particles-js", {
       },
     },
 
-    // Brand color - Indigo
+    // Brand color - Royal Blue
     color: {
-      value: "#6366f1",
+      value: "#3B82F6",
     },
 
     // Particle shape
@@ -62,7 +62,7 @@ particlesJS("particles-js", {
     line_linked: {
       enable: true,
       distance: 150,
-      color: "#10b981", // Brand green color
+      color: "#60A5FA", // Light Royal Blue color
       opacity: 0.4,
       width: 1,
     },
@@ -84,13 +84,13 @@ particlesJS("particles-js", {
     },
   },
 
-  // Interactivity - disabled on mobile for performance
+  // Interactivity
   interactivity: {
-    detect_on: "canvas",
+    detect_on: "window", // Changed from canvas to window to allow pointer-events-none tracking
     events: {
       onhover: {
         enable: interactivityEnabled,
-        mode: "grab",
+        mode: "grab", // Make lines grab the cursor
       },
       onclick: {
         enable: interactivityEnabled,
@@ -100,9 +100,9 @@ particlesJS("particles-js", {
     },
     modes: {
       grab: {
-        distance: 200,
+        distance: 250, // Increase grab distance so it follows more noticeably
         line_linked: {
-          opacity: 0.6,
+          opacity: 0.8,
         },
       },
       push: {

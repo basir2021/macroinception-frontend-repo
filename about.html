@@ -1,343 +1,1044 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description"
-    content="Learn about MacroInception.com – Our team, mission, and approach to AI systems engineering." />
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link rel="shortcut icon" href="assets/favicon.ico" />
+    content="MacroInception.com – About our AI infrastructure and systems engineering expertise." />
+  <title>About Us | MacroInception.com</title>
 
-  <!-- PNG favicons (various sizes) -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-
-  <!-- Apple Touch Icon (iOS home screen) -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-
-  <!-- Android Chrome M39+ (adaptive icons) -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
-  <title>About Us | MacroInception.com</title>
-  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              400: '#94a3b8',
+              500: '#64748b',
+              700: '#243050',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            royal: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Scroll-reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-100 {
+      transition-delay: 0.10s;
+    }
+
+    .delay-200 {
+      transition-delay: 0.20s;
+    }
+
+    .delay-300 {
+      transition-delay: 0.30s;
+    }
+
+    .delay-400 {
+      transition-delay: 0.40s;
+    }
+
+    /* Hero stagger */
+    .hero-anim {
+      opacity: 0;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-1 {
+      animation-delay: 0.15s;
+    }
+
+    .hero-anim-2 {
+      animation-delay: 0.30s;
+    }
+
+    .hero-anim-3 {
+      animation-delay: 0.50s;
+    }
+
+    /* Hamburger -> X */
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    /* Timeline active number */
+    .step-num-active {
+      color: rgba(59, 130, 246, 0.35) !important;
+      filter: drop-shadow(0 0 24px rgba(59, 130, 246, 0.5));
+    }
+
+    /* Timeline card slide-in */
+    .timeline-card {
+      opacity: 0;
+      transform: translateX(-48px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .timeline-card.from-right {
+      transform: translateX(48px);
+    }
+
+    .timeline-card.in-view {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Personnel card stagger reveal */
+    .personnel-card {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .personnel-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Why-card hover (Core Principles) ─────────── */
+    .why-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .5), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+      z-index: 2;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, 0.35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, .12), 0 6px 24px rgba(0, 0, 0, .3) !important;
+    }
+
+    /* ── Timeline card lift + top accent on hover ──── */
+    .timeline-card-accent {
+      position: relative;
+    }
+
+    .timeline-card-accent::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .45), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+      z-index: 2;
+    }
+
+    .timeline-card-accent:hover::before {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .why-card::before,
+      .timeline-card-accent::before {
+        display: none;
+      }
+
+      .why-card:hover {
+        transform: none !important;
+      }
+    }
+
+    /* Role icon box */
+    .role-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #60A5FA;
+      flex-shrink: 0;
+      transition: background 0.35s, border-color 0.35s, box-shadow 0.35s;
+    }
+
+    .group:hover .role-icon {
+      background: rgba(59, 130, 246, 0.16);
+      border-color: rgba(59, 130, 246, 0.45);
+      box-shadow: 0 0 18px rgba(59, 130, 246, 0.25);
+    }
+
+    /* Core Values icon box */
+    .cv-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      color: #60A5FA;
+      flex-shrink: 0;
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .group:hover .cv-icon {
+      background: rgba(59, 130, 246, 0.18);
+      border-color: rgba(59, 130, 246, 0.45);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .reveal,
+      .hero-anim {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .flow-reveal,
+      .flow-left,
+      .flow-scale,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flow-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .flow-scale {
+      opacity: 0;
+      transform: scale(0.94) translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .flow-cta {
+      opacity: 0;
+      transform: scale(0.97) translateY(16px);
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  </style>
 </head>
 
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
+<body
+  class="bg-navy-950 font-sans text-navy-400 antialiased selection:bg-royal-500/30 selection:text-white flex flex-col min-h-screen">
 
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <!-- Particles Background Base -->
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full"></div>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html" class="active">About</a>
-      <a href="services.html">Services</a>
-      <a href="case-studies.html">Case Studies</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
-  </header>
-
-  <!-- Overlay for mobile menu -->
-  <div class="nav-overlay"></div>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>
-          Building the future of AI infrastructure, one system at a time
-        </h2>
-        <p>
-          We're a specialized team of engineers and data scientists who
-          believe that great AI systems require deep technical expertise,
-          production experience, and an obsession with performance.
-        </p>
-      </div>
-      <img class="hero-img" src="assets/about.jpeg" alt="Team collaboration" />
-    </section>
-
-    <!-- Mission -->
-    <!-- <section class="about">
-        <h3>Our Mission</h3>
-        <p>
-          At MacroInception, we bridge the gap between cutting-edge AI research
-          and production-ready systems. Our mission is to make advanced AI
-          infrastructure accessible, reliable, and cost-effective for
-          enterprises of all sizes.
-        </p>
-
-        <div class="stats mt-lg">
-          <div class="stats-grid">
-            <div class="stat">
-              <span class="number">50+</span>
-              <span class="label">Production Systems</span>
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-navy-950/80 border-b border-white/10"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
             </div>
-            <div class="stat">
-              <span class="number">15+</span>
-              <span class="label">Enterprise Clients</span>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </a>
+        </div>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Home</a>
+          <a href="services.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Services</a>
+          <a href="case-studies.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Case Studies</a>
+          <a href="pricing.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Pricing</a>
+          <!-- Company Dropdown (Active state for about.html) -->
+          <div class="relative group">
+            <button
+              class="text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-royal-400 after:rounded-full">
+              Company
+              <svg class="w-3.5 h-3.5 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div
+              class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <div class="absolute -top-4 left-0 w-full h-4"></div>
+              <div class="p-2 flex flex-col">
+                <a href="about.html"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-white bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                  </svg>
+                  About Us
+                </a>
+                <a href="#"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                    </path>
+                  </svg>
+                  Blog (Soon)
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </section> -->
-    <!-- Mission -->
-    <section class="about">
-      <h3>Our Mission</h3>
-      <p class="lead">
-        At <strong>MacroInception</strong>, we bridge the gap between
-        cutting-edge AI research and production-ready systems. Our mission is
-        to make advanced AI infrastructure
-        <span class="highlight">accessible, reliable, and cost-effective</span>
-        for enterprises of all sizes — from startups to Fortune 500.
-      </p>
-
-      <div class="stats mt-lg">
-        <div class="stats-grid">
-          <div class="stat">
-            <span class="number">50+</span>
-            <span class="label">Production AI Systems Deployed</span>
-          </div>
-          <div class="stat">
-            <span class="number">15+</span>
-            <span class="label">Enterprise Clients Live</span>
-          </div>
-          <div class="stat">
-            <span class="number">6</span>
-            <span class="label">Industries Transformed</span>
-          </div>
-          <div class="stat">
-            <span class="number">&lt;48h</span>
-            <span class="label">Avg. Model-to-Production Time</span>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Our Approach -->
-    <section>
-      <h3>Our Approach</h3>
-      <p>
-        We follow a rigorous, production-first methodology that ensures every
-        system we build is reliable, scalable, and maintainable.
-      </p>
-
-      <div class="process">
-        <div class="timeline">
-          <div class="step">
-            <h4>1. Discovery & Analysis</h4>
-            <p>
-              We start by deeply understanding your business requirements,
-              existing infrastructure, and performance goals. This phase
-              includes technical audits and feasibility studies.
-            </p>
-          </div>
-
-          <div class="step">
-            <h4>2. Architecture & Design</h4>
-            <p>
-              Our team designs a comprehensive solution architecture,
-              considering scalability, cost, latency, and reliability. We
-              create detailed technical specifications and deployment plans.
-            </p>
-          </div>
-
-          <div class="step">
-            <h4>3. Development & Testing</h4>
-            <p>
-              We build production-grade systems with comprehensive testing,
-              including load testing, failure scenarios, and performance
-              benchmarking against your requirements.
-            </p>
-          </div>
-
-          <div class="step">
-            <h4>4. Deployment & Monitoring</h4>
-            <p>
-              Careful deployment with rollback strategies, comprehensive
-              monitoring, alerting systems, and documentation for your team.
-            </p>
-          </div>
-
-          <div class="step">
-            <h4>5. Optimization & Support</h4>
-            <p>
-              Continuous performance monitoring and optimization, along with
-              ongoing support to ensure your systems run smoothly at scale.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Our Team -->
-    <section class="team">
-      <h3>Our Team</h3>
-      <p>
-        A diverse group of specialists with deep expertise in AI, distributed
-        systems, and production engineering.
-      </p>
-      <div class="cards">
-        <div class="card">
-          <div class="avatar">DS</div>
-          <h4>Data Scientists</h4>
-          <p class="role">ML Research & Development</p>
-          <p>
-            Experts in deep learning, NLP, computer vision, and custom model
-            architectures.
-          </p>
+          <a href="contact.html"
+            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent rounded-lg hover:bg-royal-500 shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+            Contact Us
+          </a>
         </div>
 
-        <div class="card">
-          <div class="avatar">ME</div>
-          <h4>ML Engineers</h4>
-          <p class="role">Production AI Systems</p>
-          <p>
-            Specialists in model deployment, optimization, and large-scale
-            inference infrastructure.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="avatar">SE</div>
-          <h4>Systems Engineers</h4>
-          <p class="role">Infrastructure & Scale</p>
-          <p>
-            Experts in distributed systems, Kubernetes, and high-performance
-            computing.
-          </p>
-        </div>
-
-        <div class="card">
-          <div class="avatar">DE</div>
-          <h4>Data Engineers</h4>
-          <p class="role">Pipeline & ETL</p>
-          <p>
-            Specialists in big data processing, streaming systems, and data
-            infrastructure.
-          </p>
-        </div>
-
-        <!-- Combined Card: Web & Mobile Front-end Development (AI-focused) -->
-        <div class="card">
-          <div class="avatar">WD</div>
-          <h4>Web & Mobile Developers</h4>
-          <p class="role">Full Stack + Mobile Front-end (AI)</p>
-          <p>
-            Build responsive web apps and native mobile experiences with
-            real-time AI integration, on-device inference, and seamless APIs.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Values -->
-    <section>
-      <h3>Our Values</h3>
-      <div class="cards">
-        <div class="card">
-          <h4>Technical Excellence</h4>
-          <p>
-            We stay at the cutting edge of AI and systems engineering,
-            continuously learning and adopting best practices.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Production First</h4>
-          <p>
-            Every line of code we write is production-ready, with proper error
-            handling, logging, and monitoring.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Transparency</h4>
-          <p>
-            Clear communication, realistic timelines, and honest assessments
-            of what's possible and what's not.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Cost Consciousness</h4>
-          <p>
-            We optimize for both performance and cost, ensuring you get the
-            best ROI on your AI investments.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Long-term Partnership</h4>
-          <p>
-            We're not just contractors – we're partners invested in the
-            long-term success of your AI systems.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Continuous Improvement</h4>
-          <p>
-            We constantly monitor, analyze, and optimize systems to ensure
-            they perform better over time.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="text-center">
-      <h3>Let's Work Together</h3>
-      <p>
-        Ready to build production-grade AI systems? We'd love to discuss your
-        project.
-      </p>
-      <div class="hero-buttons" style="margin-top: 2rem; display: flex; justify-content: center">
-        <a href="contact.html" class="btn-primary">Get in Touch</a>
-        <a href="case-studies.html" class="btn-outline" style="margin-left: 1rem">View Our Work</a>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
-      </div>
-
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
-        </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
-        </div>
+        <!-- Mobile Menu Button (animates to X) -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+        </button>
       </div>
     </div>
+  </nav>
 
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    <a href="index.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
+    <a href="services.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Services</a>
+    <a href="case-studies.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Case Studies</a>
+    <a href="pricing.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Pricing</a>
+    <!-- Company Dropdown section for mobile -->
+    <a href="about.html" class="text-2xl font-heading font-semibold text-royal-400 transition-colors">About Us</a>
+    <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+      (Soon)</a>
+    <a href="contact.html"
+      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+      Us</a>
+  </div>
+
+  <main class="flex-grow relative z-10 bg-transparent pt-32 pb-24">
+
+    <!-- Hero / Intro -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 text-center">
+      <div
+        class="hero-anim hero-anim-1 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-royal-900/30 text-royal-400 text-xs font-mono font-semibold uppercase tracking-wider border border-royal-500/20 mb-8 mt-12">
+        <span class="w-2 h-2 rounded-full bg-royal-400 animate-pulse"></span>
+        MacroInception Division
+      </div>
+      <h1 class="hero-anim hero-anim-2 text-5xl md:text-7xl font-bold font-heading text-white tracking-tight mb-8">
+        Building the future of <span
+          class="bg-gradient-to-r from-royal-400 to-cyan-300 bg-clip-text text-transparent">AI infrastructure</span>.
+      </h1>
+      <p class="hero-anim hero-anim-3 text-xl text-navy-400 leading-relaxed max-w-2xl mx-auto">
+        We're a specialized, tier-1 team of engineers and data scientists. We believe that deploying great AI systems
+        requires deep technical expertise, hard-won production experience, and an absolute obsession with performance.
+      </p>
+    </section>
+
+    <!-- Mission & Technical Throughput (Stats) -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32 relative">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-royal-900/10 to-transparent pointer-events-none border-t border-b border-navy-800">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center py-20 relative z-10">
+        <div class="flow-left">
+          <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">Our Objective</h2>
+          <h3 class="text-3xl md:text-4xl font-bold font-heading text-white tracking-tight mb-6">Bridging cutting-edge
+            research and production systems.</h3>
+          <p class="text-navy-400 text-lg leading-relaxed mb-6">
+            At <strong>MacroInception</strong>, our core directive is to make advanced AI infrastructure accessible,
+            reliable, and highly cost-effective for enterprises of all tiers — from scaling startups to Fortune 500
+            incumbents.
+          </p>
+          <div class="h-px w-full bg-gradient-to-r from-royal-500/50 to-transparent my-8"></div>
+          <p class="text-navy-500 text-sm font-mono tracking-wide uppercase">Operative Scale</p>
+        </div>
+
+        <!-- Technical Stats Grid -->
+        <div class="grid grid-cols-2 gap-6">
+          <div
+            class="flow-scale bg-navy-900/40 backdrop-blur-sm border border-navy-800 rounded-2xl p-6 hover:border-royal-500/30 transition-all duration-300 hover:-translate-y-0.5">
+            <h4 class="text-4xl font-heading font-bold text-white mb-2 count-num" data-target="50" data-suffix="+">50+
+            </h4>
+            <p class="text-xs font-mono text-royal-400 uppercase tracking-widest">Production AI Systems</p>
+          </div>
+          <div
+            class="flow-scale bg-navy-900/40 backdrop-blur-sm border border-navy-800 rounded-2xl p-6 hover:border-royal-500/30 transition-all duration-300 hover:-translate-y-0.5"
+            style="transition-delay:0.1s">
+            <h4 class="text-4xl font-heading font-bold text-white mb-2 count-num" data-target="15" data-suffix="+">15+
+            </h4>
+            <p class="text-xs font-mono text-royal-400 uppercase tracking-widest">Enterprise Clients</p>
+          </div>
+          <div
+            class="flow-scale bg-navy-900/40 backdrop-blur-sm border border-navy-800 rounded-2xl p-6 hover:border-royal-500/30 transition-all duration-300 hover:-translate-y-0.5"
+            style="transition-delay:0.2s">
+            <h4 class="text-4xl font-heading font-bold text-white mb-2 count-num" data-target="6">6</h4>
+            <p class="text-xs font-mono text-royal-400 uppercase tracking-widest">Industries Mapped</p>
+          </div>
+          <div
+            class="flow-scale bg-navy-900/40 backdrop-blur-sm border border-navy-800 rounded-2xl p-6 hover:border-royal-500/30 transition-all duration-300 hover:-translate-y-0.5"
+            style="transition-delay:0.3s">
+            <h4 class="text-4xl font-heading font-bold text-white mb-2"><span
+                class="text-2xl text-navy-500">&lt;</span>48h</h4>
+            <p class="text-xs font-mono text-royal-400 uppercase tracking-widest">Model-To-Production</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Manifest (Typographic Timeline) -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-40">
+      <div class="mb-16 flow-reveal">
+        <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">The Manifest</h2>
+        <h3 class="text-4xl md:text-5xl font-bold font-heading text-white tracking-tight">Systematic Execution.</h3>
+        <p class="text-navy-400 text-lg mt-4">We adhere to a rigorous, production-first methodology designed to
+          guarantee scalable success.</p>
+      </div>
+
+      <div
+        class="space-y-24 relative before:absolute before:inset-0 before:ml-4 sm:before:ml-8 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-navy-800 before:to-transparent">
+
+        <!-- Step 1 -->
+        <div
+          class="relative flex items-center justify-between md:justify-normal md:even:flex-row-reverse group md:mx-0 mx-4">
+          <div
+            class="timeline-card timeline-card-accent w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_4px_25px_-5px_rgba(59,130,246,0.2)] ml-12 sm:ml-0">
+            <div
+              class="step-num absolute top-0 right-0 -mt-12 -mr-4 md:-mr-8 text-9xl font-heading font-bold text-white/5 select-none -z-10 transition-all duration-700">
+              01</div>
+            <h4 class="text-xl font-bold font-heading text-white mb-3">Discovery & Analysis</h4>
+            <p class="text-navy-400 text-sm leading-relaxed">Deeply auditing your infrastructure, latency constraints,
+              and performance parameters. Generating feasibility studies and throughput targets.</p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div
+          class="relative flex items-center justify-between md:justify-normal md:even:flex-row-reverse group md:mx-0 mx-4">
+          <div
+            class="timeline-card timeline-card-accent from-right w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_4px_25px_-5px_rgba(59,130,246,0.2)] ml-12 sm:ml-0">
+            <div
+              class="step-num absolute top-0 left-0 -mt-12 -ml-4 md:-ml-8 text-9xl font-heading font-bold text-white/5 select-none -z-10 transition-all duration-700">
+              02</div>
+            <h4 class="text-xl font-bold font-heading text-white mb-3">Architecture & Design</h4>
+            <p class="text-navy-400 text-sm leading-relaxed">Drafting comprehensive topologies focusing on horizontal
+              scaling, hardware utilization, and deployment reliability parameters.</p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div
+          class="relative flex items-center justify-between md:justify-normal md:even:flex-row-reverse group md:mx-0 mx-4">
+          <div
+            class="timeline-card timeline-card-accent w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_4px_25px_-5px_rgba(59,130,246,0.2)] ml-12 sm:ml-0">
+            <div
+              class="step-num absolute top-0 right-0 -mt-12 -mr-4 md:-mr-8 text-9xl font-heading font-bold text-white/5 select-none -z-10 transition-all duration-700">
+              03</div>
+            <h4 class="text-xl font-bold font-heading text-white mb-3">Development & Testing</h4>
+            <p class="text-navy-400 text-sm leading-relaxed">Coding production-grade frameworks with brutal load-testing
+              protocols and exhaustive model evaluation benchmarking.</p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div
+          class="relative flex items-center justify-between md:justify-normal md:even:flex-row-reverse group md:mx-0 mx-4">
+          <div
+            class="timeline-card timeline-card-accent from-right w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 rounded-2xl bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-500 hover:shadow-[0_4px_25px_-5px_rgba(59,130,246,0.2)] ml-12 sm:ml-0">
+            <div
+              class="step-num absolute top-0 left-0 -mt-12 -ml-4 md:-ml-8 text-9xl font-heading font-bold text-white/5 select-none -z-10 transition-all duration-700">
+              04</div>
+            <h4 class="text-xl font-bold font-heading text-white mb-3">Deployment & Monitoring</h4>
+            <p class="text-navy-400 text-sm leading-relaxed">Executing seamless, zero-downtime rollouts. Injecting
+              comprehensive telemetry and automated SLA alert triggering systems.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Personnel Matrix -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <div class="mb-12 flow-reveal">
+        <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">The Organization</h2>
+        <h3 class="text-4xl font-bold font-heading text-white tracking-tight">Active Personnel.</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card 1: Data Scientists -->
+        <div
+          class="personnel-card relative bg-navy-950/80 backdrop-blur-md border border-navy-800 border-t-royal-500/50 rounded-xl p-8 hover:bg-navy-900 hover:border-royal-500/50 overflow-hidden transition-all duration-500 group hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.15)] md:hover:-translate-y-1"
+          style="transition-delay:0s">
+          <div
+            class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-royal-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="role-icon">
+              <!-- Brain / neural network icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path
+                  d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44 2.5 2.5 0 0 1-2.96-3.08 3 3 0 0 1-.34-5.58 2.5 2.5 0 0 1 1.32-4.24 2.5 2.5 0 0 1 1.98-3A2.5 2.5 0 0 1 9.5 2Z" />
+                <path
+                  d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44 2.5 2.5 0 0 0 2.96-3.08 3 3 0 0 0 .34-5.58 2.5 2.5 0 0 0-1.32-4.24 2.5 2.5 0 0 0-1.98-3A2.5 2.5 0 0 0 14.5 2Z" />
+              </svg>
+            </div>
+            <span
+              class="px-2 py-1 bg-royal-500/10 text-royal-400 text-[10px] font-mono font-bold tracking-widest uppercase rounded border border-royal-500/30">RESEARCH</span>
+          </div>
+
+          <div class="relative z-10">
+            <h4 class="text-xl font-heading font-bold text-white mb-2">Data Scientists</h4>
+            <p class="text-royal-400/80 text-xs font-mono mb-6 h-6">ML Research &amp; Development</p>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <p class="text-navy-400 text-sm leading-relaxed font-mono group-hover:text-navy-300 transition-colors">
+              Architecting deep learning matrices, neural networks, computer vision parsers, and custom multi-modal
+              ensemble models.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2: ML Engineers -->
+        <div
+          class="personnel-card relative bg-navy-950/80 backdrop-blur-md border border-navy-800 border-t-royal-500/50 rounded-xl p-8 hover:bg-navy-900 hover:border-royal-500/50 overflow-hidden transition-all duration-500 group hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.15)] md:hover:-translate-y-1"
+          style="transition-delay:0.1s">
+          <div
+            class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-royal-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="role-icon">
+              <!-- CPU chip icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="4" y="4" width="16" height="16" rx="2" />
+                <rect x="9" y="9" width="6" height="6" />
+                <path d="M15 2v2M9 2v2M15 20v2M9 20v2M2 15h2M2 9h2M20 15h2M20 9h2" />
+              </svg>
+            </div>
+            <span
+              class="px-2 py-1 bg-royal-500/10 text-royal-400 text-[10px] font-mono font-bold tracking-widest uppercase rounded border border-royal-500/30">PRODUCTION</span>
+          </div>
+
+          <div class="relative z-10">
+            <h4 class="text-xl font-heading font-bold text-white mb-2">ML Engineers</h4>
+            <p class="text-royal-400/80 text-xs font-mono mb-6 h-6">Production AI Systems</p>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <p class="text-navy-400 text-sm leading-relaxed font-mono group-hover:text-navy-300 transition-colors">
+              Deployment specialists executing model compression, quantization, TensorRT optimization, and large-scale
+              inference scaling.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3: Systems Engineers -->
+        <div
+          class="personnel-card relative bg-navy-950/80 backdrop-blur-md border border-navy-800 border-t-royal-500/50 rounded-xl p-8 hover:bg-navy-900 hover:border-royal-500/50 overflow-hidden transition-all duration-500 group hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.15)] md:hover:-translate-y-1"
+          style="transition-delay:0.2s">
+          <div
+            class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-royal-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="role-icon">
+              <!-- Server stack icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" />
+                <rect x="2" y="14" width="20" height="8" rx="2" />
+                <line x1="6" y1="6" x2="6.01" y2="6" />
+                <line x1="6" y1="18" x2="6.01" y2="18" />
+              </svg>
+            </div>
+            <span
+              class="px-2 py-1 bg-royal-500/10 text-royal-400 text-[10px] font-mono font-bold tracking-widest uppercase rounded border border-royal-500/30">INFRASTRUCTURE</span>
+          </div>
+
+          <div class="relative z-10">
+            <h4 class="text-xl font-heading font-bold text-white mb-2">Systems Engineers</h4>
+            <p class="text-royal-400/80 text-xs font-mono mb-6 h-6">Infrastructure &amp; Scale</p>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <p class="text-navy-400 text-sm leading-relaxed font-mono group-hover:text-navy-300 transition-colors">
+              Distributed processing vanguard handling Kubernetes clustering, Docker orchestrations, and
+              high-availability routing.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4: Data Engineers -->
+        <div
+          class="personnel-card relative bg-navy-950/80 backdrop-blur-md border border-navy-800 border-t-royal-500/50 rounded-xl p-8 hover:bg-navy-900 hover:border-royal-500/50 overflow-hidden transition-all duration-500 group hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.15)] md:hover:-translate-y-1"
+          style="transition-delay:0.3s">
+          <div
+            class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-royal-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="role-icon">
+              <!-- Database / cylinder icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <ellipse cx="12" cy="5" rx="9" ry="3" />
+                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+              </svg>
+            </div>
+            <span
+              class="px-2 py-1 bg-royal-500/10 text-royal-400 text-[10px] font-mono font-bold tracking-widest uppercase rounded border border-royal-500/30">PIPELINE</span>
+          </div>
+
+          <div class="relative z-10">
+            <h4 class="text-xl font-heading font-bold text-white mb-2">Data Engineers</h4>
+            <p class="text-royal-400/80 text-xs font-mono mb-6 h-6">Data ETL &amp; Storage</p>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <p class="text-navy-400 text-sm leading-relaxed font-mono group-hover:text-navy-300 transition-colors">
+              Building massive parallel streaming systems, multi-node vector databases, and real-time data integration
+              bridges.
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 5: Web & Mobile Developers -->
+        <div
+          class="personnel-card relative bg-navy-950/80 backdrop-blur-md border border-navy-800 border-t-royal-500/50 rounded-xl p-8 hover:bg-navy-900 hover:border-royal-500/50 overflow-hidden transition-all duration-500 group hover:shadow-[0_0_30px_-5px_rgba(59,130,246,0.15)] md:hover:-translate-y-1 lg:col-span-2"
+          style="transition-delay:0.4s">
+          <div
+            class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-royal-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+
+          <div class="flex justify-between items-start mb-6 relative z-10">
+            <div class="role-icon">
+              <!-- Monitor + code brackets icon -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" />
+                <path d="M8 21h8M12 17v4" />
+                <polyline points="9 8 6 11 9 14" />
+                <polyline points="15 8 18 11 15 14" />
+              </svg>
+            </div>
+            <span
+              class="px-2 py-1 bg-royal-500/10 text-royal-400 text-[10px] font-mono font-bold tracking-widest uppercase rounded border border-royal-500/30">FRONTEND</span>
+          </div>
+
+          <div class="relative z-10">
+            <h4 class="text-xl font-heading font-bold text-white mb-2">Web &amp; Mobile Developers</h4>
+            <p class="text-royal-400/80 text-xs font-mono mb-6 h-6">Full Stack + Native Integrations</p>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <p
+              class="text-navy-400 text-sm leading-relaxed font-mono group-hover:text-navy-300 transition-colors lg:max-w-xl">
+              Translating complex backend neural output into frictionless, secure, real-time client applications across
+              desktop and mobile form factors.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+    </section>
+
+    <!-- Core Values Bento -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+      <div class="mb-12 flow-reveal">
+        <h2 class="text-sm font-mono font-semibold text-royal-500 tracking-widest uppercase mb-4">Core Principles</h2>
+        <h3 class="text-4xl font-bold font-heading text-white tracking-tight">Enterprise Directives.</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
+          class="why-card flow-scale group p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950 hover:-translate-y-1">
+          <div class="cv-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </div>
+          <h4 class="text-white font-bold text-lg mb-3">Production First</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">Code is built defensively with extreme error handling,
+            fallbacks, and
+            multi-layered monitoring arrays.</p>
+        </div>
+        <div
+          class="why-card flow-scale group p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950 hover:-translate-y-1"
+          style="transition-delay:0.12s">
+          <div class="cv-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+              <polyline points="16 7 22 7 22 13" />
+            </svg>
+          </div>
+          <h4 class="text-white font-bold text-lg mb-3">Cost Compression</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">Strict optimization protocols targeting maximum inference per
+            dollar on
+            provisioned hardware.</p>
+        </div>
+        <div
+          class="why-card flow-scale group p-8 border border-navy-800 rounded-xl bg-gradient-to-br from-navy-900 to-navy-950 hover:-translate-y-1"
+          style="transition-delay:0.24s">
+          <div class="cv-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <h4 class="text-white font-bold text-lg mb-3">Security Audited</h4>
+          <p class="text-sm text-navy-400 leading-relaxed">VPCs, explicit RBAC, and strict PII redaction protocols
+            before data ever
+            touches a vector index.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-16 pb-16">
+      <h2 class="flow-cta text-3xl md:text-5xl font-bold font-heading text-white tracking-tight mb-6">Initialize
+        Deployment</h2>
+      <p class="flow-cta text-lg text-navy-400 mb-10 max-w-xl mx-auto" style="transition-delay:0.1s">Access our
+        specialized architectural division for
+        immediate project feasibility auditing.</p>
+      <div class="flow-cta flex flex-col sm:flex-row gap-4 justify-center" style="transition-delay:0.2s">
+        <a href="contact.html"
+          class="inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent rounded-lg hover:bg-royal-500 shadow-[0_0_20px_rgba(37,99,235,0.4)]">
+          Commence Communications
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
+        </div>
       </div>
     </div>
   </footer>
-  <script src="js/script.js"></script>
+
+  <!-- Scripts -->
+  <script>
+    // Hamburger -> X
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    let isMenuOpen = false;
+
+    btn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      btn.classList.toggle('open', isMenuOpen);
+      if (isMenuOpen) {
+        menu.classList.remove('hidden');
+        menu.style.display = 'flex';
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu.classList.add('opacity-0');
+        setTimeout(() => { menu.classList.add('hidden'); menu.style.display = ''; }, 300);
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Scroll-reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => obs.observe(el));
+    }
+
+    // Count-up
+    const countEls = document.querySelectorAll('.count-num');
+    if (countEls.length) {
+      const cObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const el = e.target;
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '';
+            const duration = 1400;
+            const start = performance.now();
+            const animate = (now) => {
+              const p = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = Math.round(eased * target) + suffix;
+              if (p < 1) requestAnimationFrame(animate);
+            };
+            requestAnimationFrame(animate);
+            cObs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.5 });
+      countEls.forEach(el => cObs.observe(el));
+    }
+
+    // Timeline step numbers — turn blue when the step scrolls into the center of the viewport
+    const stepNums = document.querySelectorAll('.step-num');
+    if (stepNums.length) {
+      const stepObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('step-num-active');
+          } else {
+            e.target.classList.remove('step-num-active');
+          }
+        });
+      }, { rootMargin: '-25% 0px -25% 0px', threshold: 0 });
+      stepNums.forEach(el => stepObs.observe(el));
+    }
+
+    // Timeline card slide-in on scroll
+    const timelineCards = document.querySelectorAll('.timeline-card');
+    if (timelineCards.length) {
+      const tcObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            tcObs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.15 });
+      timelineCards.forEach(el => tcObs.observe(el));
+    }
+
+    // Personnel cards stagger reveal
+    const personnelCards = document.querySelectorAll('.personnel-card');
+    if (personnelCards.length) {
+      const pcObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            pcObs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -40px 0px', threshold: 0.1 });
+      personnelCards.forEach(el => pcObs.observe(el));
+    }
+  </script>
+  <!-- Flow-reveal scroll animations observer -->
+  <script>
+    (function () {
+      const FLOW_SELECTORS = '.flow-reveal, .flow-left, .flow-scale, .flow-cta';
+      const els = document.querySelectorAll(FLOW_SELECTORS);
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+      els.forEach(el => obs.observe(el));
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
 </body>
