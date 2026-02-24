@@ -8,404 +8,1349 @@
     content="Real-world AI implementations – case studies showcasing our expertise in production AI systems." />
   <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="shortcut icon" href="assets/favicon.ico" />
-
-  <!-- PNG favicons (various sizes) -->
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-
-  <!-- Apple Touch Icon (iOS home screen) -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-
-  <!-- Android Chrome M39+ (adaptive icons) -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
   <title>Case Studies | MacroInception.com</title>
-  <link rel="stylesheet" href="css/style.css" />
 
-  <!-- Swiper CSS (lightweight, CDN) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- Google Fonts: Outfit (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              400: '#94a3b8',
+              500: '#64748b',
+              600: '#475569',
+              700: '#334155',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            royal: {
+              300: '#93c5fd',
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Dossier card scroll-reveal */
+    .dossier-card {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .dossier-card.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Border sweep on hover */
+    .dossier-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .dossier-card:hover::before {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .dossier-card {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .65s cubic-bezier(.22, 1, .36, 1), transform .65s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flow-scale {
+      opacity: 0;
+      transform: scale(.88);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .flow-cta {
+      opacity: 0;
+      transform: scale(.92) translateY(20px);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* ── Bento-card hover (scan-line + glow) — also applied to dossier-cards ── */
+    .bento-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 30px rgba(59, 130, 246, .12), 0 8px 32px rgba(0, 0, 0, .35) !important;
+      transform: translateY(-3px) !important;
+    }
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .5), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+      z-index: 2;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    /* ── Why-card hover (for standard dossier cards) ── */
+    .why-card {
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    /* Hamburger -> X transform */
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+      display: block;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .45), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, .10), 0 6px 24px rgba(0, 0, 0, .3) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flow-reveal,
+      .flow-scale,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .why-card::before,
+      .bento-card::before {
+        display: none;
+      }
+
+      .why-card:hover,
+      .bento-card:hover {
+        transform: none !important;
+      }
+    }
+
+    /* ── Mobile horizontal filter tabs ─────────────── */
+    @media (max-width: 1023px) {
+      .filter-tabs-container {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        padding-bottom: 0.5rem;
+      }
+
+      .filter-tabs-container .filter-btn {
+        width: auto !important;
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+        border-left: none !important;
+        border-bottom: 2px solid transparent;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(30, 41, 59, 0.8);
+      }
+
+      .filter-tabs-container .filter-btn.border-royal-500,
+      .filter-tabs-container .filter-btn.bg-gradient-to-r {
+        border-bottom-color: #3b82f6 !important;
+        border-left-color: transparent !important;
+        background: rgba(30, 58, 138, 0.3) !important;
+        border-color: rgba(59, 130, 246, 0.4) !important;
+      }
+    }
+
+    /* ── Mobile menu fix: ensure flex-col when visible ── */
+    #mobile-menu.flex {
+      display: flex !important;
+    }
+  </style>
 </head>
 
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
+<body class="bg-navy-950 text-navy-400 font-sans antialiased selection:bg-royal-600/30">
 
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <!-- Particles Background Base -->
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full"></div>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="case-studies.html" class="active">Case Studies</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
-  </header>
-
-  <!-- Overlay for mobile menu -->
-  <div class="nav-overlay"></div>
-
-  <main>
-    <!-- ==================== HERO ==================== -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>Proven Results in AI Systems Engineering</h2>
-        <p>
-          Explore our real-world implementations that demonstrate how we help
-          businesses scale AI infrastructure, optimize performance, and
-          achieve measurable outcomes.
-        </p>
-        <div class="hero-buttons">
-          <a href="contact.html" class="btn-primary">Discuss Your Project</a>
-          <a href="services.html" class="btn-outline">View Services</a>
-        </div>
-      </div>
-      <img class="hero-img"
-        src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop"
-        alt="Success Metrics" />
-    </section>
-
-    <!-- ==================== FEATURED CASE STUDIES ==================== -->
-    <section id="case-studies" class="case-studies">
-      <h3>Featured Case Studies</h3>
-      <p>
-        These projects highlight our expertise in building scalable,
-        high-performance AI systems across industries.
-      </p>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Real-time Multimodal Search</h4>
-          <p>FinTech Client - Document Discovery Platform</p>
-          <ul>
-            <li>Vector DB with disk-based index for 1B+ vectors</li>
-            <li>Triton + dynamic batching achieving sub-200ms latency</li>
-            <li>Multi-model ensemble for text and image embeddings</li>
-            <li>Cost reduced by 40% vs managed solutions</li>
-            <li>99.9% uptime serving 10K+ concurrent queries</li>
-          </ul>
-          <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-            Outcome: Improved search accuracy by 35% and reduced operational
-            costs significantly.
-          </p>
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-navy-950/80 border-b border-white/10"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </a>
         </div>
 
-        <div class="card">
-          <h4>Enterprise LLM Assistant</h4>
-          <p>Fortune 500 Technology Company</p>
-          <ul>
-            <li>vLLM + Triton deployment with continuous batching</li>
-            <li>Custom policy-driven multi-agent orchestration</li>
-            <li>Fine-tuned Smol-LLM for domain-specific tasks</li>
-            <li>Handles 100+ concurrent users seamlessly</li>
-            <li>Reduced response latency by 60% vs baseline</li>
-          </ul>
-          <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-            Outcome: Enhanced employee productivity with AI-driven assistance,
-            scaling to enterprise levels.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Video Analytics Pipeline</h4>
-          <p>Retail Chain - 500+ Store Locations</p>
-          <ul>
-            <li>Distributed PySpark processing 70M frames daily</li>
-            <li>YOLOv8 model pruning + TensorRT optimization</li>
-            <li>Real-time inventory tracking and heatmap analytics</li>
-            <li>Edge deployment across 500+ locations</li>
-            <li>90% reduction in processing latency</li>
-          </ul>
-          <p style="margin-top: 1.5rem; color: #94a3b8; font-size: 0.9rem">
-            Outcome: Optimized inventory management and customer insights,
-            leading to 25% efficiency gains.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== MORE SUCCESS STORIES (SLIDER) ==================== -->
-    <section>
-      <h3>More Success Stories</h3>
-      <p>
-        Additional examples of how we’ve transformed AI challenges into
-        scalable solutions.
-      </p>
-
-      <!-- Swiper Container -->
-      <div class="caseSwiper-container">
-        <div class="swiper caseSwiper">
-          <div class="swiper-wrapper">
-            <!-- ==== ORIGINAL CARDS ==== -->
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>Distributed Data Pipeline for Healthcare</h4>
-                <p>Healthcare Provider - Patient Data Analysis</p>
-                <ul>
-                  <li>
-                    PySpark pipeline for processing petabyte-scale datasets
-                  </li>
-                  <li>
-                    Kubernetes orchestration for fault-tolerant computing
-                  </li>
-                  <li>
-                    H&amp;E-stained slide imaging with whole-slide digital
-                    pathology for tissue analysis
-                  </li>
-                  <li>
-                    4-5 channel multi-spectral analysis (H&amp;E + IHC
-                    biomarkers) for enhanced feature extraction
-                  </li>
-                  <li>
-                    Real-time anomaly detection in patient records, including
-                    AI-driven disease detection in histopathological images
-                  </li>
-                  <li>Reduced data processing time from days to hours</li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Accelerated insights for better patient care and
-                  operational efficiency.
-                </p>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>RAG System for Legal Research</h4>
-                <p>Law Firm - Document Retrieval Platform</p>
-                <ul>
-                  <li>
-                    Advanced chunking and embedding strategies for legal
-                    documents
-                  </li>
-                  <li>
-                    Billion-scale search with disk-based vectorDB supporting
-                    1B+ embeddings
-                  </li>
-                  <li>
-                    Integration with multiple vector stores (in-memory + disk
-                    hybrid indexing)
-                  </li>
-                  <li>
-                    LLM fine-tuning on proprietary case law and statutes for
-                    domain accuracy
-                  </li>
-                  <li>
-                    Query optimization with hybrid search (vector + keyword)
-                    reducing false positives by 50%
-                  </li>
-                  <li>
-                    Secure API deployment with role-based access controls and
-                    audit logging
-                  </li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Enabled sub-second retrieval across a
-                  billion-document legal corpus, cutting research time by 70%.
-                </p>
-              </div>
-            </div>
-
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>Computer Vision for Manufacturing</h4>
-                <p>Manufacturing Company - Quality Control System</p>
-                <ul>
-                  <li>Custom CNN models for defect detection</li>
-                  <li>Edge deployment on industrial hardware</li>
-                  <li>Real-time processing at 60 FPS</li>
-                  <li>Integration with production line APIs</li>
-                  <li>99% accuracy in defect identification</li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Reduced waste by 30% and improved product quality.
-                </p>
-              </div>
-            </div>
-
-            <!-- ==== NEW AUDIO CARD ==== -->
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>Audio Intelligence Platform</h4>
-                <p>Media & Broadcasting Company - Content Analysis</p>
-                <ul>
-                  <li>
-                    Real-time speaker diarization for multi-speaker interviews
-                  </li>
-                  <li>
-                    Music-speech separation using advanced neural networks
-                  </li>
-                  <li>
-                    Mel spectrogram & audio spectrogram feature extraction
-                  </li>
-                  <li>
-                    Automated silence remover for podcast post-production
-                  </li>
-                  <li>
-                    High-dimensional audio music embeddings for similarity
-                    search
-                  </li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Reduced audio editing time by 70% and enabled
-                  intelligent content tagging.
-                </p>
-              </div>
-            </div>
-
-            <!-- ==== NEW MODEL DEPLOYMENT CARD ==== -->
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>Production-Scale Model Deployment</h4>
-                <p>AI Startup - Inference Infrastructure</p>
-                <ul>
-                  <li>
-                    Production-scale deployment of 100+ models across GPU
-                    clusters
-                  </li>
-                  <li>
-                    Triton Inference Server with dynamic batching & model
-                    ensembling
-                  </li>
-                  <li>
-                    FastAPI gateway with rate limiting and authentication
-                  </li>
-                  <li>vLLM for high-throughput LLM serving</li>
-                  <li>
-                    Model optimization using ONNX, TensorRT, optimum
-                    threading, and dynamic batching
-                  </li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Achieved 5x throughput and 60% cost savings in GPU
-                  utilization.
-                </p>
-              </div>
-            </div>
-
-            <!-- ==== NEW AGENTIC AI CARD ==== -->
-            <div class="swiper-slide">
-              <div class="card">
-                <h4>Agentic AI Automation Suite</h4>
-                <p>Enterprise Client - Workflow Automation</p>
-                <ul>
-                  <li>
-                    Automation under AI using tool modeling and decision trees
-                  </li>
-                  <li>
-                    Function calling orchestration across 50+ internal APIs
-                  </li>
-                  <li>
-                    Multi-agent system for report generation and approvals
-                  </li>
-                  <li>Dynamic task routing based on context and priority</li>
-                  <li>Self-healing workflows with fallback strategies</li>
-                </ul>
-                <p style="
-                      margin-top: 1.5rem;
-                      color: #94a3b8;
-                      font-size: 0.9rem;
-                    ">
-                  Outcome: Automated 80% of manual workflows, saving 1,200+
-                  hours monthly.
-                </p>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Home</a>
+          <a href="services.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Services</a>
+          <a href="case-studies.html"
+            class="text-sm font-medium text-white transition-colors py-2 relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-royal-500">Case
+            Studies</a>
+          <a href="pricing.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Pricing</a>
+          <!-- Company Dropdown -->
+          <div class="relative group">
+            <button
+              class="text-navy-400 group-hover:text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none">
+              Company
+              <svg class="w-3.5 h-3.5 text-navy-500 group-hover:text-royal-400 transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div
+              class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <div class="absolute -top-4 left-0 w-full h-4"></div>
+              <div class="p-2 flex flex-col">
+                <a href="about.html"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                  </svg>
+                  About Us
+                </a>
+                <a href="#"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                    </path>
+                  </svg>
+                  Blog (Soon)
+                </a>
               </div>
             </div>
           </div>
-
-          <!-- Navigation arrows -->
+          <a href="contact.html"
+            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent rounded-lg hover:bg-royal-500 shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+            Contact Us
+          </a>
         </div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
 
-        <!-- Pagination dots (optional) -->
-        <div class="swiper-pagination"></div>
+        <!-- Mobile menu button -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    <a href="index.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
+    <a href="services.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Services</a>
+    <a href="case-studies.html" class="text-2xl font-heading font-semibold text-royal-400 transition-colors">Case
+      Studies</a>
+    <a href="pricing.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Pricing</a>
+    <!-- Company Section for Mobile -->
+    <a href="about.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
+    <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+      (Soon)</a>
+    <a href="contact.html"
+      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+      Us</a>
+  </div>
+  <main class="relative z-10 pt-20">
+    <!-- Hero Section -->
+    <section class="relative bg-transparent pt-32 pb-20 overflow-hidden">
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-royal-600/10 blur-[120px] rounded-full pointer-events-none">
+      </div>
+      <div class="max-w-7xl mx-auto px-4 relative z-10 text-center">
+        <h1 class="flow-reveal text-5xl md:text-7xl font-bold font-heading text-white tracking-tight mb-6 mt-8">
+          Deployed Solutions <span
+            class="text-transparent bg-clip-text bg-gradient-to-r from-royal-400 to-cyan-400">Archive</span>
+        </h1>
+        <p class="flow-reveal text-xl text-navy-400 max-w-3xl mx-auto leading-relaxed mb-10"
+          style="transition-delay:0.1s">
+          A highly-structured intelligence dossier of our production-grade AI systems, demonstrating deterministic
+          scaling, massive throughput, and extreme ROI.
+        </p>
       </div>
     </section>
 
-    <!-- ==================== CTA ==================== -->
-    <section class="text-center">
-      <h3>Ready to Become Our Next Success Story?</h3>
-      <p>
-        Contact us to discuss how we can tailor our expertise to your unique
-        challenges.
-      </p>
-      <div class="hero-buttons" style="margin-top: 2rem; display: flex; justify-content: center">
-        <a href="contact.html" class="btn-primary">Get Started</a>
-        <a href="pricing.html" class="btn-outline" style="margin-left: 1rem">
-          View Pricing
-        </a>
+    <!-- Content Grid -->
+    <section class="w-full bg-transparent pb-32">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col lg:flex-row gap-12 items-start relative">
+
+          <!-- Command Matrix Sticky HUD (Filters) -->
+          <div class="w-full lg:w-1/4 lg:sticky lg:top-32 z-20">
+            <h3 class="text-xs font-semibold tracking-wider text-navy-500 uppercase mb-6 flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="text-royal-500">
+                <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" />
+              </svg>
+              Filter Archive
+            </h3>
+            <div class="filter-tabs-container flex flex-col gap-2">
+              <!-- Filters -->
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 bg-gradient-to-r hover:bg-navy-900/50 transition-colors border-royal-500 from-royal-900/20 to-transparent group w-full"
+                data-filter="all">
+                <span class="block text-white font-medium mb-1">All Telemetry</span>
+                <span class="block text-xs font-mono text-royal-400">9 DEPLOYMENTS</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="search">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">Vector & Search</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">2 DEPLOYMENTS</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="orchestration">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">LLM Orchestration</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">2 DEPLOYMENTS</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="vision">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">Computer Vision</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">2 DEPLOYMENTS</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="audio">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">Audio Analysis</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">1 DEPLOYMENT</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="data">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">Data Engineering</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">1 DEPLOYMENT</span>
+              </button>
+              <button
+                class="filter-btn text-left px-5 py-4 border-l-2 border-transparent hover:border-navy-600 transition-colors group w-full md:w-1/4 res-tab"
+                data-filter="deployment">
+                <span class="block text-navy-300 font-medium group-hover:text-white mb-1">Model Deployment</span>
+                <span class="block text-xs font-mono text-navy-500 group-hover:text-royal-400">1 DEPLOYMENT</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Intelligence Dossiers Grid -->
+          <div class="w-full lg:w-3/4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="dossier-grid">
+
+              <!-- CARD 1: Search -->
+              <div
+                class="dossier-card why-card search col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex-1 flex flex-col justify-center">
+                  <div class="flex justify-between items-start mb-6">
+                    <div>
+                      <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">
+                        Project: Nexus</div>
+                      <span
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Search
+                      </span>
+                    </div>
+                    <span class="text-navy-500 text-xs font-mono text-right mt-1">FINTECH CLIENT</span>
+                  </div>
+                  <h3 class="text-2xl font-bold font-heading text-white mb-3 tracking-tight">Real-time Multimodal Vector
+                    Search</h3>
+                  <p class="text-navy-400 text-sm leading-relaxed mb-6">Document Discovery Platform scaling to immense
+                    vector databases with stringent enterprise security controls.</p>
+
+                  <ul class="space-y-3 mb-6 flex-grow">
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Vector DB with disk-based index for 1B+ vectors</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Triton + dynamic batching achieving sub-200ms latency</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Multi-model ensemble for text and image embeddings</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Cost reduced by 40% vs managed solutions</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">99.9% uptime serving 10K+ concurrent queries</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      <span class="text-sm text-emerald-400 font-medium">Outcome: Improved search accuracy by 35% and
+                        reduced operational costs significantly.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- CARD 2: Orchestration -->
+              <div
+                class="dossier-card why-card orchestration col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Aegis</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Orchestration
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">FORTUNE 500</span>
+                </div>
+                <h3 class="text-2xl font-bold font-heading text-white mb-3">Enterprise LLM Assistant</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">vLLM + Triton deployment with continuous batching</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Custom policy-driven multi-agent orchestration</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Fine-tuned Smol-LLM for domain-specific tasks</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Handles 100+ concurrent users seamlessly</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Reduced response latency by 60% vs baseline</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Enhanced employee productivity with
+                      AI-driven assistance, scaling to enterprise levels.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 3: Data (Healthcare) -->
+              <div
+                class="dossier-card why-card data col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Helix</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Data
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">HEALTHCARE</span>
+                </div>
+                <h3 class="text-2xl font-bold font-heading text-white mb-3">Distributed Data Pipeline</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">PySpark pipeline for processing petabyte-scale datasets</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Kubernetes orchestration for fault-tolerant computing</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">H&E-stained slide imaging with whole-slide digital pathology for
+                      tissue analysis</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">4-5 channel multi-spectral analysis (H&E + IHC biomarkers) for
+                      enhanced feature extraction</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Real-time anomaly detection in patient records, including
+                      AI-driven disease detection in histopathological images</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Reduced data processing time from days to hours</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Accelerated insights for better patient
+                      care and operational efficiency.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 4: Vision (Retail) -->
+              <div
+                class="dossier-card why-card vision col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex-1 flex flex-col justify-center">
+                  <div class="flex justify-between items-start mb-6">
+                    <div>
+                      <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">
+                        Project: Oculus</div>
+                      <span
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Vision
+                      </span>
+                    </div>
+                    <span class="text-navy-500 text-xs font-mono text-right mt-1">RETAIL CHAIN (500+ STORES)</span>
+                  </div>
+
+                  <h3 class="text-2xl font-bold font-heading text-white mb-3 tracking-tight">Distributed Video Analytics
+                    Pipeline</h3>
+
+                  <ul class="space-y-3 mb-6 flex-grow">
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Distributed PySpark processing 70M frames daily</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">YOLOv8 model pruning + TensorRT optimization</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Real-time inventory tracking and heatmap analytics</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Edge deployment across 500+ locations</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">90% reduction in processing latency</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      <span class="text-sm text-emerald-400 font-medium">Outcome: Optimized inventory management and
+                        customer insights, leading to 25% efficiency gains.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- CARD 5: Search (Legal) -->
+              <div
+                class="dossier-card why-card search col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Lexis</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Search
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">LAW FIRM</span>
+                </div>
+                <h3 class="text-xl font-bold font-heading text-white mb-3">RAG System for Legal Research</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Advanced chunking and embedding strategies for legal
+                      documents</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Billion-scale search with disk-based vectorDB supporting 1B+
+                      embeddings</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Integration with multiple vector stores (in-memory + disk hybrid
+                      indexing)</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">LLM fine-tuning on proprietary case law and statutes for domain
+                      accuracy</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Query optimization with hybrid search (vector + keyword)
+                      reducing false positives by 50%</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Secure API deployment with role-based access controls and audit
+                      logging</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Enabled sub-second retrieval across a
+                      billion-document legal corpus, cutting research time by 70%.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 6: Vision (Manufacturing) -->
+              <div
+                class="dossier-card why-card vision col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Forge</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Vision
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">MANUFACTURING</span>
+                </div>
+                <h3 class="text-xl font-bold font-heading text-white mb-3">Computer Vision QC</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Custom CNN models for defect detection</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Edge deployment on industrial hardware</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Real-time processing at 60 FPS</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Integration with production line APIs</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">99% accuracy in defect identification</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Reduced waste by 30% and improved
+                      product quality.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 7: Audio -->
+              <div
+                class="dossier-card why-card audio col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Echo</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Audio
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">MEDIA COMPANY</span>
+                </div>
+                <h3 class="text-xl font-bold font-heading text-white mb-3">Audio Intelligence Platform</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Real-time speaker diarization for multi-speaker
+                      interviews</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Music-speech separation using advanced neural networks</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Mel spectrogram & audio spectrogram feature extraction</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Automated silence remover for podcast post-production</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">High-dimensional audio music embeddings for similarity
+                      search</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Reduced audio editing time by 70% and
+                      enabled intelligent content tagging.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 8: Deployment -->
+              <div
+                class="dossier-card why-card deployment col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col">
+                <div class="flex justify-between items-start mb-6">
+                  <div>
+                    <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">Project:
+                      Titan</div>
+                    <span
+                      class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                      <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Deploy
+                    </span>
+                  </div>
+                  <span class="text-navy-500 text-xs font-mono text-right mt-1">AI STARTUP</span>
+                </div>
+                <h3 class="text-xl font-bold font-heading text-white mb-3">Production-Scale Infrastructure</h3>
+
+                <ul class="space-y-3 mb-6 flex-grow">
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Production-scale deployment of 100+ models across GPU
+                      clusters</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Triton Inference Server with dynamic batching & model
+                      ensembling</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">FastAPI gateway with rate limiting and authentication</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">vLLM for high-throughput LLM serving</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span class="text-sm text-navy-300">Model optimization using ONNX, TensorRT, optimum threading, and
+                      dynamic batching</span>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                      stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span class="text-sm text-emerald-400 font-medium">Outcome: Achieved 5x throughput and 60% cost
+                      savings in GPU utilization.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- CARD 9: Orchestration (Agentic AI) -->
+              <div
+                class="dossier-card why-card orchestration col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 group flex flex-col mt-4">
+                <div class="flex-1 flex flex-col justify-center">
+                  <div class="flex justify-between items-start mb-6">
+                    <div>
+                      <div class="text-royal-400 text-xs font-mono font-semibold tracking-widest mb-2 uppercase">
+                        Project: Prometheus</div>
+                      <span
+                        class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-royal-900/30 text-royal-400 text-[10px] font-mono font-semibold uppercase tracking-widest border border-royal-500/20">
+                        <span class="w-1.5 h-1.5 rounded-full bg-royal-400 animate-pulse"></span> Orchestration
+                      </span>
+                    </div>
+                    <span class="text-navy-500 text-xs font-mono text-right mt-1">ENTERPRISE CLIENT</span>
+                  </div>
+                  <h3 class="text-2xl font-bold font-heading text-white mb-3 tracking-tight">Agentic AI Automation Suite
+                  </h3>
+
+                  <ul class="space-y-3 mb-6 flex-grow">
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Automation under AI using tool modeling and decision
+                        trees</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Function calling orchestration across 50+ internal APIs</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Multi-agent system for report generation and approvals</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Dynamic task routing based on context and priority</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-royal-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                      </svg>
+                      <span class="text-sm text-navy-300">Self-healing workflows with fallback strategies</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                      <svg class="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      <span class="text-sm text-emerald-400 font-medium">Outcome: Automated 80% of manual workflows,
+                        saving 1,200+ hours monthly.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Global CTA -->
+    <section class="w-full bg-navy-950 py-24 border-t border-navy-900 relative mt-20">
+      <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h2 class="text-4xl font-bold font-heading text-white tracking-tight mb-6">Deploy Your Architecture.</h2>
+        <p class="text-xl text-navy-400 font-medium mb-10">We engineer precise, high-throughput AI solutions designed
+          strictly for enterprise scale.</p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="contact.html"
+            class="w-full sm:w-auto px-8 py-4 bg-royal-600 text-white font-semibold rounded-lg hover:bg-royal-500 transition-colors shadow-[0_0_20px_rgba(37,99,235,0.3)]">
+            Initialize Project
+          </a>
+          <a href="pricing.html"
+            class="w-full sm:w-auto px-8 py-4 bg-navy-900 border border-navy-700 text-white font-semibold rounded-lg hover:bg-navy-800 transition-colors">
+            View Analytics Tiers
+          </a>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
+  <!-- Global Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
         </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
       </div>
     </div>
   </footer>
 
-  <!-- Swiper JS (CDN) -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <!-- Scripts -->
+  <script>
+    // Hamburger -> X animation and Menu Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        const isOpen = mobileBtn.classList.contains('open');
 
-  <!-- Slider initialization -->
-  <script src="js/script.js"></script>
+        if (!isOpen) {
+          // Open menu
+          mobileBtn.classList.add('open');
+          mobileMenu.classList.remove('hidden');
+          mobileMenu.style.display = 'flex';
+          // small delay to allow display:flex to apply before opacity transition
+          setTimeout(() => {
+            mobileMenu.classList.remove('opacity-0');
+          }, 10);
+          document.body.style.overflow = 'hidden';
+        } else {
+          // Close menu
+          mobileBtn.classList.remove('open');
+          mobileMenu.classList.add('opacity-0');
+          setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.style.display = '';
+          }, 300);
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Close menu when clicking links
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileBtn.classList.remove('open');
+          mobileMenu.classList.add('opacity-0');
+          setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.style.display = '';
+          }, 300);
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Command Matrix Filter Logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const dossiers = document.querySelectorAll('.dossier-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active button styling
+          filterBtns.forEach(b => {
+            b.classList.remove('border-royal-500', 'from-royal-900/20', 'to-transparent', 'bg-gradient-to-r');
+            b.classList.add('border-transparent');
+            b.querySelector('span:first-child').classList.replace('text-white', 'text-navy-300');
+            b.querySelector('span:last-child').classList.replace('text-royal-400', 'text-navy-500');
+          });
+
+          btn.classList.add('border-royal-500', 'from-royal-900/20', 'to-transparent', 'bg-gradient-to-r');
+          btn.classList.remove('border-transparent');
+          btn.querySelector('span:first-child').classList.replace('text-navy-300', 'text-white');
+          btn.querySelector('span:last-child').classList.replace('text-navy-500', 'text-royal-400');
+
+          // Filter cards
+          const filterValue = btn.getAttribute('data-filter');
+          const grid = document.getElementById('dossier-grid');
+
+          if (grid) {
+            const gridRect = grid.getBoundingClientRect();
+            // If the top of the grid is above the viewport (meaning we scrolled down past it)
+            if (gridRect.top < 120) {
+              const offsetTop = gridRect.top + window.scrollY - 150;
+              window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+            }
+          }
+
+          dossiers.forEach(dossier => {
+            if (filterValue === 'all' || dossier.classList.contains(filterValue)) {
+              dossier.style.display = 'flex';
+              dossier.style.opacity = '0';
+              dossier.style.transform = 'translateY(10px)';
+              setTimeout(() => {
+                dossier.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                dossier.style.opacity = '1';
+                dossier.style.transform = 'translateY(0)';
+              }, 50);
+            } else {
+              dossier.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+
+  <!-- Flow-reveal scroll animations observer -->
+  <script>
+    (function () {
+      const els = document.querySelectorAll('.flow-reveal,.flow-scale,.flow-cta');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+      els.forEach(el => obs.observe(el));
+    })();
+  </script>
+  <!-- Particles -->
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
+
+  <!-- Dossier card scroll-reveal observer -->
+  <script>
+    (function () {
+      const cards = document.querySelectorAll('.dossier-card');
+      let delay = 0;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const el = e.target;
+            const base = parseFloat(el.dataset.revealDelay || 0);
+            setTimeout(() => el.classList.add('revealed'), base * 1000);
+            obs.unobserve(el);
+          }
+        });
+      }, { rootMargin: '0px 0px -40px 0px', threshold: 0.08 });
+
+      cards.forEach((card, i) => {
+        card.dataset.revealDelay = (i % 2) * 0.12; // alternating 0 / 0.12s per pair
+        obs.observe(card);
+      });
+    })();
+  </script>
 </body>
 
 </html>

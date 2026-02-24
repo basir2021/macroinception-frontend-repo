@@ -19,325 +19,1296 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
   <title>MacroInception.com | AI · Scale · Systems</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <!-- Google Fonts: Outfit (Headings) & Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              950: '#020617',
+              900: '#0B132B',
+              800: '#1C2541',
+              700: '#243050',
+              400: '#7B89A8',
+            },
+            royal: {
+              400: '#60A5FA',
+              500: '#3B82F6',
+              600: '#2563EB',
+            }
+          },
+          animation: {
+            marquee: 'marquee 35s linear infinite',
+            'spin-slow': 'spin 12s linear infinite',
+            'fade-in-up': 'fadeInUp 0.7s ease forwards',
+            'count-up': 'countUp 1.2s ease forwards',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(28px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Scroll-reveal system */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .delay-100 {
+      transition-delay: 0.1s;
+    }
+
+    .delay-200 {
+      transition-delay: 0.2s;
+    }
+
+    .delay-300 {
+      transition-delay: 0.3s;
+    }
+
+    .delay-400 {
+      transition-delay: 0.4s;
+    }
+
+    .delay-500 {
+      transition-delay: 0.5s;
+    }
+
+    /* Hero stagger animations on load */
+    .hero-anim {
+      opacity: 0;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-1 {
+      animation-delay: 0.15s;
+    }
+
+    .hero-anim-2 {
+      animation-delay: 0.30s;
+    }
+
+    .hero-anim-3 {
+      animation-delay: 0.50s;
+    }
+
+    .hero-anim-4 {
+      animation-delay: 0.70s;
+    }
+
+    /* Marquee pause on hover */
+    .marquee-track:hover {
+      animation-play-state: paused;
+    }
+
+    /* Hamburger -> X transform */
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+      display: block;
+    }
+
+    /* Navbar scroll-shrink */
+    header.scrolled {
+      backdrop-filter: blur(20px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    header.scrolled .nav-inner {
+      height: 3.5rem;
+    }
+
+    /* Count-up number */
+    .count-num {
+      display: inline-block;
+    }
+
+    /* Why card icon */
+    .why-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      background: rgba(59, 130, 246, 0.1);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      color: #60A5FA;
+      flex-shrink: 0;
+    }
+
+    /* ── Hero enhancements ──────────────────────────────────── */
+    @keyframes orbPulse {
+
+      0%,
+      100% {
+        opacity: 0.04;
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        opacity: 0.09;
+        transform: translate(-50%, -50%) scale(1.12);
+      }
+    }
+
+    .hero-orb {
+      animation: orbPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes ringRotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .hero-ring-spin {
+      transform-origin: 500px 300px;
+      animation: ringRotate 28s linear infinite;
+    }
+
+    .hero-ring-spin-rev {
+      transform-origin: 500px 300px;
+      animation: ringRotate 20s linear infinite reverse;
+    }
+
+    @keyframes badgeShimmer {
+      0% {
+        background-position: -200% center;
+      }
+
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    .hero-badge {
+      background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(96, 165, 250, 0.30) 40%, rgba(59, 130, 246, 0.15) 80%);
+      background-size: 200% auto;
+      animation: badgeShimmer 4s linear infinite;
+    }
+
+    /* ── Bento card hover (scan-line + glow) ───────────────── */
+    .bento-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(96, 165, 250, 0.35) !important;
+      box-shadow: 0 0 30px rgba(59, 130, 246, 0.12), 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+      transform: translateY(-3px) !important;
+    }
+
+
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.5), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    /* ── Why Choose Us card enhancements ────────────────────── */
+    .why-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.45), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, 0.35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, 0.10), 0 6px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .why-card .why-icon {
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .why-card:hover .why-icon {
+      background: rgba(59, 130, 246, 0.18) !important;
+      border-color: rgba(96, 165, 250, 0.5) !important;
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.3);
+    }
+
+    /* ── Case Study card top edge accent line ──────── */
+    .case-card {
+      position: relative;
+    }
+
+    .case-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .5), transparent);
+      opacity: 0;
+      transition: opacity 0.35s;
+      z-index: 2;
+    }
+
+    .case-card:hover::before {
+      opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-orb {
+        animation: none;
+        opacity: 0.05;
+      }
+
+      .hero-ring-spin,
+      .hero-ring-spin-rev {
+        animation: none;
+      }
+
+      .hero-badge {
+        animation: none;
+      }
+
+      .bento-card::after,
+      .why-card::before,
+      .bento-card::before {
+        display: none;
+      }
+
+      .bento-card:hover,
+      .why-card:hover {
+        transform: none !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .reveal,
+      .hero-anim {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .marquee-track {
+        animation-play-state: paused !important;
+      }
+
+      .flow-reveal,
+      .flow-left,
+      .flow-scale,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flow-left {
+      opacity: 0;
+      transform: translateX(-32px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .flow-scale {
+      opacity: 0;
+      transform: scale(0.94) translateY(20px);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .flow-cta {
+      opacity: 0;
+      transform: scale(0.97) translateY(16px);
+      transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  </style>
 </head>
 
-<body>
-  <div id="particles-js"></div>
 
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
+<body class="bg-navy-950 text-navy-400 font-sans antialiased selection:bg-royal-600/30">
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full">
+  </div>
 
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <!-- Premium Glass Navbar (Enterprise) -->
+  <header id="site-header"
+    class="fixed top-0 w-full z-50 backdrop-blur-md bg-navy-950/80 border-b border-navy-800 transition-all duration-300">
+    <div class="nav-inner max-w-7xl mx-auto px-4 h-20 flex items-center justify-between transition-all duration-300">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <div
+          class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+          <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+          <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+        </div>
+        <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+            class="text-royal-400">Inception</span></span>
+      </a>
 
-    <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="case-studies.html">Case Studies</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
+      <!-- Mobile Menu Button (animates to X) -->
+      <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+        <span class="w-6 h-0.5 bg-white"></span>
+        <span class="w-6 h-0.5 bg-white"></span>
+        <span class="w-6 h-0.5 bg-white"></span>
+      </button>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html"
+          class="text-white font-medium text-sm transition-colors relative after:absolute after:bottom-[-4px] after:left-0 after:w-full after:h-0.5 after:bg-royal-400 after:rounded-full">Home</a>
+        <a href="services.html"
+          class="text-navy-400 hover:text-white font-medium text-sm transition-colors">Services</a>
+        <a href="case-studies.html" class="text-navy-400 hover:text-white font-medium text-sm transition-colors">Case
+          Studies</a>
+        <a href="pricing.html" class="text-navy-400 hover:text-white font-medium text-sm transition-colors">Pricing</a>
+        <!-- Company Dropdown -->
+        <div class="relative group">
+          <button
+            class="text-navy-400 group-hover:text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none">
+            Company
+            <svg class="w-3.5 h-3.5 text-navy-500 group-hover:text-royal-400 transition-colors" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div
+            class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+            <!-- Invisible bridge to keep hover active -->
+            <div class="absolute -top-4 left-0 w-full h-4"></div>
+
+            <div class="p-2 flex flex-col">
+              <a href="about.html"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                About Us
+              </a>
+              <a href="#"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                  </path>
+                </svg>
+                Blog (Soon)
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="contact.html"
+          class="px-5 py-2.5 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-medium text-sm transition-all shadow-lg hover:shadow-royal-500/25">Contact
+          Us</a>
+      </nav>
+    </div>
   </header>
 
-  <!-- Overlay for mobile menu -->
-  <div class="nav-overlay"></div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    <a href="index.html" class="text-2xl font-heading font-semibold text-royal-400 transition-colors">Home</a>
+    <a href="services.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Services</a>
+    <a href="case-studies.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Case Studies</a>
+    <a href="pricing.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Pricing</a>
+    <!-- Company Section for Mobile -->
+    <a href="about.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
+    <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+      (Soon)</a>
+    <a href="contact.html"
+      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+      Us</a>
+  </div>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-content">
-        <p class="hero-eyebrow">AI Infrastructure for Enterprises</p>
-        <h1 class="hero-title">
-          Build <span class="gradient-text">production-grade</span> AI systems that scale
+    <!-- Enterprise Hero Section -->
+    <section
+      class="relative min-h-[90vh] flex flex-col items-center justify-center text-center px-4 pt-32 pb-20 overflow-hidden">
+      <!-- Background Gradient underlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-navy-950 to-navy-900 pointer-events-none -z-10"></div>
+      <!-- Soft Corporate Background Elements -->
+      <div class="absolute inset-0 z-0 opacity-40 pointer-events-none flex items-center justify-center">
+        <!-- Re-introduce soft, curved data rings -->
+        <svg class="w-full h-full max-w-6xl" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer ring – counter-rotates, brighter blue-tinted stroke -->
+          <circle cx="500" cy="300" r="280" stroke="#2A3F6F" stroke-width="2" stroke-dasharray="6 12"
+            class="hero-ring-spin-rev" />
+          <!-- Middle ring – rotates clockwise, clearly visible dashes -->
+          <circle cx="500" cy="300" r="180" stroke="#3B5FC0" stroke-width="1.5" stroke-dasharray="5 9" opacity="0.75"
+            class="hero-ring-spin" />
+          <!-- Inner accent ring -->
+          <circle cx="500" cy="300" r="90" stroke="#3B82F6" stroke-width="1" stroke-dasharray="3 5" opacity="0.7" />
+
+          <path d="M500 20 L500 580 M220 300 L780 300" stroke="#2A3A5C" stroke-width="0.75" />
+
+          <circle cx="500" cy="20" r="4" fill="#60A5FA" class="animate-pulse" />
+          <circle cx="500" cy="580" r="4" fill="#3B82F6" class="animate-pulse" />
+          <circle cx="220" cy="300" r="4" fill="#60A5FA" class="animate-[pulse_3s_ease-in-out_infinite]" />
+          <circle cx="780" cy="300" r="4" fill="#3B82F6" class="animate-[pulse_2.5s_ease-in-out_infinite]" />
+        </svg>
+      </div>
+
+      <!-- Subtle glow -->
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-royal-600/5 rounded-full blur-[100px] pointer-events-none">
+      </div>
+
+      <div class="z-10 relative mt-10 max-w-5xl mx-auto">
+        <!-- Trust Badge -->
+        <div
+          class="hero-badge hero-anim hero-anim-1 inline-flex items-center gap-2 px-4 py-2 border border-royal-500/30 rounded-full mb-8 text-sm font-medium text-royal-400">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+          Enterprise Grade AI Infrastructure
+        </div>
+
+        <!-- Corporate Typography -->
+        <h1
+          class="hero-anim hero-anim-2 font-heading text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight leading-[1.1]">
+          Reliable AI Systems <br class="hidden md:block" />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-royal-400 to-blue-400 relative">
+            Engineered for Scale
+          </span>
         </h1>
-        <p class="hero-description">
-          From model training to deployment—we architect scalable AI infrastructure
-          with Triton, vLLM, and distributed compute that delivers real business results.
+
+        <p class="hero-anim hero-anim-3 text-xl text-navy-400 max-w-3xl mx-auto mb-12 leading-relaxed">
+          We build, deploy, and manage secure AI infrastructure. Trust our enterprise solutions for billion-row data
+          pipelines and compliant model serving.
         </p>
-        <div class="hero-cta">
-          <a href="contact.html" class="btn-primary">Get a Consultation</a>
-          <a href="case-studies.html" class="btn-outline">View Our Work</a>
-        </div>
-      </div>
-      <div class="hero-visual">
-        <img class="hero-img" src="assets/hero1.webp" alt="AI Systems Infrastructure" />
-      </div>
-    </section>
 
-    <!-- Trust Bar -->
-    <section class="trust-bar">
-      <p>Trusted by industry leaders</p>
-      <div class="trust-logos">
-        <div class="trust-item">
-          <span class="trust-stat">50+</span>
-          <span class="trust-label">Projects Delivered</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-stat">15+</span>
-          <span class="trust-label">Enterprise Clients</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-stat">99.9%</span>
-          <span class="trust-label">Uptime Achieved</span>
-        </div>
-        <div class="trust-item">
-          <span class="trust-stat">6</span>
-          <span class="trust-label">Industries Served</span>
+        <!-- Trust CTAs -->
+        <div class="hero-anim hero-anim-4 flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <a href="contact.html"
+            class="px-8 py-4 bg-royal-600 text-white font-semibold rounded-lg hover:bg-royal-500 transition-all shadow-lg shadow-royal-600/30 hover:shadow-royal-500/40 hover:-translate-y-0.5 w-full sm:w-auto text-base">
+            Talk to an Expert
+          </a>
+          <a href="pricing.html"
+            class="px-8 py-4 bg-navy-800/80 border border-navy-700 text-white font-semibold rounded-lg hover:bg-navy-700 hover:border-navy-600 transition-all w-full sm:w-auto text-base flex items-center justify-center gap-2">
+            View Solutions
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Services Overview - Tabbed -->
-    <section id="services" class="services-tabbed">
-      <h3>Our Services</h3>
-      <p>
-        From prototyping to production, we provide end-to-end solutions
-        tailored for high-performance AI systems.
-      </p>
-
-      <!-- Tab Navigation -->
-      <div class="service-tabs">
-        <button class="tab-btn active" data-tab="ai-systems">AI Systems</button>
-        <button class="tab-btn" data-tab="deployment">Deployment</button>
-        <button class="tab-btn" data-tab="infrastructure">Infrastructure</button>
+    <!-- Technology Stack Marquee -->
+    <div class="w-full overflow-hidden bg-navy-950 py-10 border-y border-navy-800 relative">
+      <!-- Fade edge masks -->
+      <div
+        class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-navy-950 to-transparent z-10 pointer-events-none">
       </div>
-
-      <!-- Tab Content: AI Systems -->
-      <div class="tab-content active" id="ai-systems">
-        <div class="tab-panel">
-          <div class="tab-info">
-            <h4>AI Systems & Model Engineering</h4>
-            <p>Custom AI solutions from concept to production-ready systems.</p>
-            <ul>
-              <li>LLM fine-tuning + instruction tuning</li>
-              <li>Agentic AI & automation workflows</li>
-              <li>Computer Vision, NLP, Audio pipelines</li>
-              <li>Custom model architectures & research</li>
-              <li>Transfer learning & domain adaptation</li>
-            </ul>
-            <a href="services.html" class="btn-outline">Learn More</a>
-          </div>
-          <div class="tab-visual">
-            <div class="visual-card">
-              <div class="visual-icon">ML</div>
-              <div class="visual-stats">
-                <span class="stat-highlight">70B+</span>
-                <span class="stat-desc">Parameters fine-tuned</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div
+        class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-navy-950 to-transparent z-10 pointer-events-none">
       </div>
-
-      <!-- Tab Content: Deployment -->
-      <div class="tab-content" id="deployment">
-        <div class="tab-panel">
-          <div class="tab-info">
-            <h4>Deployment & Inference</h4>
-            <p>Optimized model serving at any scale.</p>
-            <ul>
-              <li>Triton Inference Server deployment</li>
-              <li>vLLM deployment for LLM inference</li>
-              <li>FastAPI & scalable API gateways</li>
-              <li>Dynamic batching & request optimization</li>
-              <li>Model quantization (INT8, FP16, GPTQ)</li>
-            </ul>
-            <a href="services.html" class="btn-outline">Learn More</a>
-          </div>
-          <div class="tab-visual">
-            <div class="visual-card">
-              <div class="visual-icon">⚡</div>
-              <div class="visual-stats">
-                <span class="stat-highlight">&lt;200ms</span>
-                <span class="stat-desc">Avg. latency achieved</span>
-              </div>
-            </div>
-          </div>
+      <div class="flex whitespace-nowrap animate-marquee marquee-track gap-20 items-center w-[200%]">
+        <!-- Set 1 -->
+        <div class="flex items-center gap-20 min-w-full justify-around">
+          <span class="text-base font-bold tracking-widest text-gray-600 uppercase">Powered By</span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path
+                d="M50 0L8.6 23.9v47.8L50 95.6l41.4-23.9V23.9L50 0zM24.5 49c0-14.1 11.4-25.5 25.5-25.5S75.5 34.9 75.5 49 64.1 74.5 50 74.5 24.5 63.1 24.5 49z" />
+            </svg>
+            PyTorch
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M50 5L11 27.5v45L50 95l39-22.5v-45L50 5zm0 76.5L24 64V36l26-15 26 15v28L50 81.5z" />
+            </svg>
+            Kubernetes
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="8" />
+              <circle cx="50" cy="50" r="15" />
+            </svg>
+            Apache Kafka
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" stroke-width="8" />
+              <path d="M40 40h20v20H40z" />
+            </svg>
+            Triton
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <rect x="10" y="30" width="80" height="15" rx="4" />
+              <rect x="10" y="55" width="80" height="15" rx="4" />
+              <circle cx="25" cy="37.5" r="6" />
+              <circle cx="25" cy="62.5" r="6" />
+            </svg>
+            PySpark
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M15 15h30v30H15zM55 15h30v30H55zM15 55h30v30H15zM55 55h30v30H55z" />
+            </svg>
+            TensorRT
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="8" />
+              <path d="M50 15v70M15 50h70" stroke="currentColor" stroke-width="6" />
+            </svg>
+            Docker
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M50 10L90 30v40L50 90 10 70V30z" fill="none" stroke="currentColor" stroke-width="7" />
+              <path d="M50 35l25 15v20L50 85 25 70V50z" />
+            </svg>
+            MLflow
+          </span>
         </div>
-      </div>
-
-      <!-- Tab Content: Infrastructure -->
-      <div class="tab-content" id="infrastructure">
-        <div class="tab-panel">
-          <div class="tab-info">
-            <h4>Big Data & Distributed Compute</h4>
-            <p>Enterprise-grade data infrastructure.</p>
-            <ul>
-              <li>PySpark & distributed ETL pipelines</li>
-              <li>Kubernetes & container orchestration</li>
-              <li>Data pipelines for billion-row datasets</li>
-              <li>Real-time streaming (Kafka, Flink)</li>
-              <li>GPU cluster management</li>
-            </ul>
-            <a href="services.html" class="btn-outline">Learn More</a>
-          </div>
-          <div class="tab-visual">
-            <div class="visual-card">
-              <div class="visual-icon">∞</div>
-              <div class="visual-stats">
-                <span class="stat-highlight">1B+</span>
-                <span class="stat-desc">Records processed</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Featured Case Studies -->
-    <section id="case-studies" class="case-studies">
-      <h3>Featured Case Studies</h3>
-      <p>
-        Real-world implementations demonstrating our expertise in AI
-        infrastructure and systems engineering.
-      </p>
-
-      <div class="cards">
-        <div class="card numbered">
-          <span class="card-number">01</span>
-          <h4>Real-time Multimodal Search</h4>
-          <p class="card-subtitle">E-commerce Platform</p>
-          <ul>
-            <li>Vector DB with disk-based index for 1B+ vectors</li>
-            <li>Triton + dynamic batching achieving sub-200ms latency</li>
-            <li>Multi-model ensemble for text and image embeddings</li>
-          </ul>
-          <div class="card-result">
-            <span class="result-label">Result</span>
-            <span class="result-value">40% cost reduction</span>
-          </div>
-        </div>
-
-        <div class="card numbered">
-          <span class="card-number">02</span>
-          <h4>Enterprise LLM Assistant</h4>
-          <p class="card-subtitle">Financial Services</p>
-          <ul>
-            <li>vLLM + Triton deployment with GPU pooling</li>
-            <li>Custom policy-driven multi-agent orchestration</li>
-            <li>Fine-tuned Llama 2 70B with domain-specific data</li>
-          </ul>
-          <div class="card-result">
-            <span class="result-label">Result</span>
-            <span class="result-value">60% faster responses</span>
-          </div>
-        </div>
-
-        <div class="card numbered">
-          <span class="card-number">03</span>
-          <h4>Video Analytics Pipeline</h4>
-          <p class="card-subtitle">Retail Chain</p>
-          <ul>
-            <li>Distributed PySpark processing 1M+ frames daily</li>
-            <li>YOLOv8 model pruning + TensorRT optimization</li>
-            <li>Edge deployment across 500+ locations</li>
-          </ul>
-          <div class="card-result">
-            <span class="result-label">Result</span>
-            <span class="result-value">90% latency reduction</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-cta">
-        <a href="case-studies.html" class="btn-outline">View All Case Studies</a>
-      </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section class="about">
-      <h3>Why Choose MacroInception</h3>
-      <p>
-        We are a team of Data Scientists, ML Engineers, and full-stack
-        developers specializing in scalable AI infrastructure. We focus on
-        measurable results: faster inference, lower cost, higher accuracy, and
-        production reliability.
-      </p>
-
-      <div class="cards mt-lg">
-        <div class="card">
-          <h4>Production-First</h4>
-          <p>
-            Every solution is built for production from day one, with proper
-            monitoring, logging, and failover mechanisms.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Cost-Optimized</h4>
-          <p>
-            We optimize for both performance and cost, typically reducing
-            infrastructure costs by 30-50%.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Battle-Tested</h4>
-          <p>
-            Our solutions power systems handling billions of requests, with
-            proven reliability at scale.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="contact">
-      <h3>Ready to Transform Your AI Infrastructure?</h3>
-      <p>
-        Let's discuss how we can help scale your AI systems. Get a free
-        consultation to explore possibilities.
-      </p>
-
-      <form id="contact-form" onsubmit="handleFormSubmit(event, 'home')">
-        <input type="text" id="home-name" name="name" placeholder="Your Name" required />
-        <input type="email" id="home-email" name="email" placeholder="Work Email" required />
-        <input type="text" id="home-company" name="company" placeholder="Company" />
-        <textarea id="home-message" name="message" placeholder="Tell us about your project or challenge..."
-          required></textarea>
-        <button type="submit">Send Message</button>
-      </form>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
-      </div>
-
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
-        </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
+        <!-- Set 2 (duplicate for seamless loop) -->
+        <div class="flex items-center gap-20 min-w-full justify-around">
+          <span class="text-base font-bold tracking-widest text-gray-600 uppercase">Powered By</span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path
+                d="M50 0L8.6 23.9v47.8L50 95.6l41.4-23.9V23.9L50 0zM24.5 49c0-14.1 11.4-25.5 25.5-25.5S75.5 34.9 75.5 49 64.1 74.5 50 74.5 24.5 63.1 24.5 49z" />
+            </svg>
+            PyTorch
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M50 5L11 27.5v45L50 95l39-22.5v-45L50 5zm0 76.5L24 64V36l26-15 26 15v28L50 81.5z" />
+            </svg>
+            Kubernetes
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="8" />
+              <circle cx="50" cy="50" r="15" />
+            </svg>
+            Apache Kafka
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <rect x="20" y="20" width="60" height="60" fill="none" stroke="currentColor" stroke-width="8" />
+              <path d="M40 40h20v20H40z" />
+            </svg>
+            Triton
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <rect x="10" y="30" width="80" height="15" rx="4" />
+              <rect x="10" y="55" width="80" height="15" rx="4" />
+              <circle cx="25" cy="37.5" r="6" />
+              <circle cx="25" cy="62.5" r="6" />
+            </svg>
+            PySpark
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M15 15h30v30H15zM55 15h30v30H55zM15 55h30v30H15zM55 55h30v30H55z" />
+            </svg>
+            TensorRT
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" stroke-width="8" />
+              <path d="M50 15v70M15 50h70" stroke="currentColor" stroke-width="6" />
+            </svg>
+            Docker
+          </span>
+          <span
+            class="text-lg font-semibold text-gray-500 hover:text-gray-300 transition-colors flex items-center gap-2.5 flex-shrink-0">
+            <svg class="h-6 w-6" viewBox="0 0 100 100" fill="currentColor">
+              <path d="M50 10L90 30v40L50 90 10 70V30z" fill="none" stroke="currentColor" stroke-width="7" />
+              <path d="M50 35l25 15v20L50 85 25 70V50z" />
+            </svg>
+            MLflow
+          </span>
         </div>
       </div>
     </div>
 
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+    <!-- Premium Trust Bar -->
+    <section class="max-w-7xl mx-auto px-4 py-8 mb-12 border-b border-slate-800/50">
+      <div
+        class="flow-reveal flex flex-col md:flex-row items-center justify-between gap-8 py-8 px-8 bg-slate-900/30 rounded-3xl border border-slate-800/50 backdrop-blur-sm relative overflow-hidden group">
+        <!-- Shine effect -->
+        <div
+          class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none">
+        </div>
+
+        <p class="font-heading text-sm font-semibold tracking-widest text-slate-500 uppercase z-10">Trusted By Industry
+          Leaders</p>
+
+        <div
+          class="flex flex-wrap sm:flex-nowrap items-center gap-12 sm:gap-16 z-10 w-full md:w-auto justify-between md:justify-end">
+          <div class="flex flex-col">
+            <span class="font-heading text-4xl font-bold text-white count-num" data-target="50"
+              data-suffix="+">50+</span>
+            <span class="text-xs font-semibold tracking-wider text-navy-400 uppercase mt-2">Projects Delivered</span>
+          </div>
+          <div class="w-px h-8 bg-navy-800 hidden sm:block"></div>
+
+          <div class="flex flex-col">
+            <span class="font-heading text-4xl font-bold text-white count-num" data-target="15"
+              data-suffix="+">15+</span>
+            <span class="text-xs font-semibold tracking-wider text-navy-400 uppercase mt-2">Enterprise Clients</span>
+          </div>
+          <div class="w-px h-8 bg-navy-800 hidden sm:block"></div>
+
+          <div class="flex flex-col">
+            <span class="font-heading text-4xl font-bold text-royal-400 count-num" data-target="999" data-suffix="%"
+              data-decimal="true">99.9%</span>
+            <span class="text-xs font-semibold tracking-wider text-navy-400 uppercase mt-2">Uptime Achieved</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Bento Grid (Enterprise) -->
+    <section id="services" class="w-full bg-navy-950 py-24 border-t border-navy-900">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-16 text-center max-w-2xl mx-auto flow-reveal">
+          <h2 class="text-4xl font-bold text-white tracking-tight mb-4">Core Capabilities</h2>
+          <p class="text-lg text-navy-400">Secure, scalable, and compliant AI engineering designed for large-scale
+            enterprise deployments.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 auto-rows-[minmax(250px,_auto)] gap-6">
+
+          <!-- Card 1 (Span 2) -->
+          <div
+            class="bento-card flow-scale group col-span-1 md:col-span-2 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-2xl p-8 flex flex-col justify-between">
+            <div class="mb-8">
+              <div
+                class="w-12 h-12 rounded-xl bg-royal-900/40 border border-royal-500/30 flex items-center justify-center mb-6 text-royal-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path
+                    d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16" />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">AI Systems & Model Engineering</h3>
+              <p class="text-navy-400 group-hover:text-navy-300 transition-colors leading-relaxed text-lg mb-6">Custom
+                LLM fine-tuning and agentic workflow
+                automation to increase model accuracy on proprietary enterprise data.</p>
+
+              <details class="text-navy-500 cursor-pointer group/details font-medium">
+                <summary class="font-medium text-sm hover:text-white transition-colors flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="group-open/details:rotate-90 transition-transform">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg> View Technical Details
+                </summary>
+                <div class="mt-4 p-5 rounded-lg bg-navy-950/50 border border-navy-800">
+                  <ul class="space-y-3 text-sm text-navy-300 list-disc pl-5">
+                    <li>Custom LLM fine-tuning & instruction tuning</li>
+                    <li>Agentic AI & multi-agent orchestration</li>
+                    <li>Multi-modal end-to-end pipeline development including Computer Vision, NLP, and Audio</li>
+                    <li>Custom model architectures & research</li>
+                    <li>Transfer learning & domain adaptation</li>
+                    <li>Model evaluation & benchmarking</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mt-8 mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <a href="case-studies.html"
+              class="text-royal-400 font-medium hover:text-royal-300 inline-flex items-center gap-2 text-sm w-max group/link">View
+              Case Studies
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="transition-transform group-hover/link:translate-x-1">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg></a>
+          </div>
+
+          <!-- Card 2 (Span 1) -->
+          <div
+            class="bento-card flow-scale group col-span-1 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-2xl p-8 flex flex-col justify-between"
+            style="transition-delay:0.12s">
+            <div class="mb-8">
+              <div
+                class="w-12 h-12 rounded-xl bg-royal-900/40 border border-royal-500/30 flex items-center justify-center mb-6 text-royal-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Deployment & Inference</h3>
+              <p class="text-navy-400 group-hover:text-navy-300 transition-colors leading-relaxed text-lg mb-6">Triton
+                Inference Server deployment for low-latency,
+                high-throughput model serving.</p>
+
+              <details class="text-navy-500 cursor-pointer group/details font-medium">
+                <summary class="font-medium text-sm hover:text-white transition-colors flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="group-open/details:rotate-90 transition-transform">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg> View Technical Details
+                </summary>
+                <div class="mt-4 p-5 rounded-lg bg-navy-950/50 border border-navy-800">
+                  <ul class="space-y-3 text-sm text-navy-300 list-disc pl-5">
+                    <li>Triton Inference Server deployment</li>
+                    <li>vLLM deployment for LLM inference</li>
+                    <li>FastAPI & scalable API gateways</li>
+                    <li>Dynamic batching & request optimization</li>
+                    <li>Model quantization (INT8, FP16, GPTQ)</li>
+                    <li>GPU pooling & load balancing</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mt-8 mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <a href="case-studies.html"
+              class="text-royal-400 font-medium hover:text-royal-300 inline-flex items-center gap-2 text-sm w-max group/link">View
+              Case Studies
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="transition-transform group-hover/link:translate-x-1">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg></a>
+          </div>
+
+          <!-- Card 3 (Span 3) -->
+          <div
+            class="bento-card flow-scale group col-span-1 md:col-span-3 bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-2xl p-8 flex flex-col justify-between"
+            style="transition-delay:0.22s">
+            <div>
+              <div
+                class="w-12 h-12 rounded-xl bg-royal-900/40 border border-royal-500/30 flex items-center justify-center mb-6 text-royal-400">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="16" height="16" x="4" y="4" rx="2" ry="2" />
+                  <rect width="6" height="6" x="9" y="9" rx="1" />
+                </svg>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-3 tracking-tight">Big Data &amp; Distributed Compute</h3>
+              <p
+                class="text-navy-400 group-hover:text-navy-300 transition-colors leading-relaxed text-lg max-w-3xl mb-6">
+                Enterprise-grade data infrastructure and
+                distributed training for billion-row datasets using Kubernetes and PySpark.</p>
+
+              <details class="text-navy-500 cursor-pointer group/details max-w-xl font-medium">
+                <summary class="font-medium text-sm hover:text-white transition-colors flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="group-open/details:rotate-90 transition-transform">
+                    <path d="m9 18 6-6-6-6" />
+                  </svg> View Technical Details
+                </summary>
+                <div class="mt-4 p-5 rounded-lg bg-navy-950/50 border border-navy-800">
+                  <ul class="space-y-3 text-sm text-navy-300 list-disc pl-5">
+                    <li>PySpark &amp; distributed ETL pipelines</li>
+                    <li>Kubernetes &amp; container orchestration</li>
+                    <li>Data pipelines for billion-row datasets</li>
+                    <li>Real-time streaming (Kafka, Flink)</li>
+                    <li>Data lake &amp; warehouse architecture</li>
+                    <li>GPU cluster management</li>
+                  </ul>
+                </div>
+              </details>
+            </div>
+            <div
+              class="h-px w-full bg-gradient-to-r from-navy-800 to-transparent mt-8 mb-6 transition-all duration-500 group-hover:from-royal-500/50">
+            </div>
+            <a href="case-studies.html"
+              class="text-royal-400 font-medium hover:text-royal-300 inline-flex items-center gap-2 text-sm w-max group/link">View
+              Case Studies
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="transition-transform group-hover/link:translate-x-1">
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
+              </svg></a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Case Studies (Enterprise) -->
+    <section id="case-studies" class="w-full py-24 relative border-t border-navy-900">
+      <!-- Background underlay -->
+      <div class="absolute inset-0 bg-navy-950 pointer-events-none -z-10"></div>
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 flow-reveal">
+          <div class="max-w-2xl">
+            <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">Technical Case Studies</h2>
+            <p class="text-xl text-navy-400 font-medium">Real-world deployments demonstrating deterministic scaling and
+              infrastructure resilience.</p>
+          </div>
+          <a href="case-studies.html"
+            class="hidden md:inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-royal-600 border border-transparent text-white font-medium hover:bg-royal-500 transition-colors shadow-lg hover:shadow-royal-500/25">
+            Access Full Archive <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Case 1 -->
+          <div
+            class="case-card flow-scale group relative bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 rounded-2xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+            <div
+              class="absolute -right-6 -top-10 text-9xl font-heading font-bold text-navy-800/30 group-hover:text-royal-500/10 transition-colors pointer-events-none select-none">
+              01</div>
+            <div class="relative z-10">
+              <span class="text-royal-400 font-semibold text-sm tracking-wider uppercase mb-3 block">E-commerce
+                Backbone</span>
+              <h4 class="text-2xl font-bold text-white mb-6 tracking-tight">Real-time Multimodal Vector Search</h4>
+              <ul class="space-y-3 text-navy-400 text-sm mb-8">
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> Vector DB with disk-based index
+                  for 1B+ vectors
+                </li>
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> Triton + dynamic batching
+                  achieving sub-200ms latency
+                </li>
+              </ul>
+              <div class="pt-6 border-t border-navy-800">
+                <p class="text-xs text-navy-500 font-semibold uppercase tracking-wider mb-1 mt-auto">Operations Impact
+                </p>
+                <p class="text-xl font-bold text-white group-hover:text-royal-400 transition-colors">40% cost reduction
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 2 -->
+          <div
+            class="case-card flow-scale group relative bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 rounded-2xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300 overflow-hidden md:-translate-y-4"
+            style="transition-delay:0.12s">
+            <div
+              class="absolute -right-6 -top-10 text-9xl font-heading font-bold text-navy-800/30 group-hover:text-royal-500/10 transition-colors pointer-events-none select-none">
+              02</div>
+            <div class="relative z-10">
+              <span class="text-royal-400 font-semibold text-sm tracking-wider uppercase mb-3 block">Financial
+                Infrastructure</span>
+              <h4 class="text-2xl font-bold text-white mb-6 tracking-tight">Agentic Enterprise Orchestration</h4>
+              <ul class="space-y-3 text-navy-400 text-sm mb-8">
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> vLLM + Triton deployment with
+                  active GPU pooling
+                </li>
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> Policy-driven multi-agent
+                  orchestration
+                </li>
+              </ul>
+              <div class="pt-6 border-t border-navy-800">
+                <p class="text-xs text-navy-500 font-semibold uppercase tracking-wider mb-1 mt-auto">Operations Impact
+                </p>
+                <p class="text-xl font-bold text-white group-hover:text-royal-400 transition-colors">60% latency
+                  threshold reduced</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 3 -->
+          <div
+            class="case-card flow-scale group relative bg-gradient-to-br from-navy-900 to-navy-950 border border-navy-800 rounded-2xl p-8 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300 overflow-hidden md:-translate-y-8"
+            style="transition-delay:0.24s">
+            <div
+              class="absolute -right-6 -top-10 text-9xl font-heading font-bold text-navy-800/30 group-hover:text-royal-500/10 transition-colors pointer-events-none select-none">
+              03</div>
+            <div class="relative z-10">
+              <span class="text-royal-400 font-semibold text-sm tracking-wider uppercase mb-3 block">Physical Security &
+                Retail</span>
+              <h4 class="text-2xl font-bold text-white mb-6 tracking-tight">Edge Video Analytics Pipeline</h4>
+              <ul class="space-y-3 text-navy-400 text-sm mb-8">
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> Distributed PySpark processing 1M+
+                  frames daily
+                </li>
+                <li class="flex items-start gap-2">
+                  <div class="w-1.5 h-1.5 rounded-full bg-royal-500/50 mt-1.5"></div> TensorRT edge deployment across
+                  500+ locations
+                </li>
+              </ul>
+              <div class="pt-6 border-t border-navy-800">
+                <p class="text-xs text-navy-500 font-semibold uppercase tracking-wider mb-1 mt-auto">Operations Impact
+                </p>
+                <p class="text-xl font-bold text-white group-hover:text-royal-400 transition-colors">90% reduction in
+                  edge compute wait</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-8 flex justify-center md:hidden">
+          <a href="case-studies.html"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-royal-600 border border-transparent text-white font-medium hover:bg-royal-500 transition-colors shadow-lg hover:shadow-royal-500/25">
+            Access Full Archive <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us (Enterprise) -->
+    <section class="w-full py-24 bg-navy-900 border-t border-navy-800">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-16 text-center max-w-3xl mx-auto flow-reveal">
+          <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">Why MacroInception</h2>
+          <p class="text-lg text-navy-400 font-medium">
+            We bypass the hype phase and focus strictly on measurable metrics: accelerating inference, crushing
+            operations costs, and fortifying production reliability.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="why-card flow-scale bg-gradient-to-br from-navy-800/50 to-navy-900 border border-navy-700/50 rounded-2xl p-8 hover:-translate-y-1 group">
+            <div
+              class="why-icon group-hover:bg-royal-500/20 group-hover:border-royal-500/50 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-3 tracking-tight">I. Production-First</h4>
+            <p class="text-navy-400 leading-relaxed text-sm">
+              Every architecture is designed for the crucible of production from day zero. We embed comprehensive
+              Prometheus tracking, Grafana observability, and aggressive failover topology standard.
+            </p>
+          </div>
+
+          <div
+            class="why-card flow-scale bg-gradient-to-br from-navy-800/50 to-navy-900 border border-navy-700/50 rounded-2xl p-8 hover:-translate-y-1 group"
+            style="transition-delay:0.12s">
+            <div
+              class="why-icon group-hover:bg-royal-500/20 group-hover:border-royal-500/50 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-3 tracking-tight">II. Cost-Optimized</h4>
+            <p class="text-navy-400 leading-relaxed text-sm">
+              Inference runs hot. Through aggressive quantization (INT8/FP8), dynamic continuous batching, and
+              intelligent GPU pooling, we typically slash cloud infrastructure run-rates by 30–50%.
+            </p>
+          </div>
+
+          <div
+            class="why-card flow-scale bg-gradient-to-br from-navy-800/50 to-navy-900 border border-navy-700/50 rounded-2xl p-8 hover:-translate-y-1 group"
+            style="transition-delay:0.24s">
+            <div
+              class="why-icon group-hover:bg-royal-500/20 group-hover:border-royal-500/50 transition-all duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg>
+            </div>
+            <h4 class="text-xl font-bold text-white mb-3 tracking-tight">III. Battle-Tested</h4>
+            <p class="text-navy-400 leading-relaxed text-sm">
+              Our hardware topologies and software pipelines currently power systems managing billions of asynchronous
+              requests daily, ensuring strict SLA adherence and zero-downtime rollouts.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section (Enterprise) -->
+    <section class="relative py-24 px-4 overflow-hidden border-t border-navy-800">
+      <!-- Background underlays -->
+      <div class="absolute inset-0 bg-navy-950 pointer-events-none -z-10"></div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-royal-900/20 to-navy-950/10 mix-blend-screen pointer-events-none z-0">
+      </div>
+      <div
+        class="absolute inset-0 bg-gradient-to-b from-royal-900/20 to-navy-950/10 mix-blend-screen pointer-events-none">
+      </div>
+      </div>
+
+      <div class="max-w-4xl mx-auto z-10 relative">
+        <div class="text-center mb-12 flow-cta">
+          <h3 class="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">Initialize Deployment</h3>
+          <p class="text-xl text-navy-400 font-medium max-w-2xl mx-auto">
+            Submit system scale requirements to schedule a technical architecture deep-dive.
+          </p>
+        </div>
+
+        <form id="contact-form"
+          class="flow-cta bg-navy-900/60 backdrop-blur-lg border border-navy-800 rounded-3xl p-8 sm:p-12 shadow-2xl"
+          style="transition-delay:0.15s" onsubmit="handleFormSubmit(event, 'home')">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label for="home-name"
+                class="block text-sm font-semibold text-navy-300 uppercase tracking-wider mb-2">Operator Name</label>
+              <input type="text" id="home-name" name="name"
+                class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder:text-navy-500 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all"
+                placeholder="John Doe" required />
+            </div>
+            <div>
+              <label for="home-email"
+                class="block text-sm font-semibold text-navy-300 uppercase tracking-wider mb-2">Comms Link
+                (Email)</label>
+              <input type="email" id="home-email" name="email"
+                class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder:text-navy-500 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all"
+                placeholder="j.doe@corp.com" required />
+            </div>
+          </div>
+          <div class="mb-6">
+            <label for="home-company"
+              class="block text-sm font-semibold text-navy-300 uppercase tracking-wider mb-2">Organization</label>
+            <input type="text" id="home-company" name="company"
+              class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder:text-navy-500 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all"
+              placeholder="Company Internal" />
+          </div>
+          <div class="mb-10">
+            <label for="home-message"
+              class="block text-sm font-semibold text-navy-300 uppercase tracking-wider mb-2">Architecture
+              Requirements</label>
+            <textarea id="home-message" name="message" rows="5"
+              class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder:text-navy-500 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all resize-none font-mono text-sm"
+              placeholder="Input specifications for handling 10k requests concurrently..." required></textarea>
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 items-center justify-between pt-2">
+            <p class="text-xs text-navy-500 font-mono tracking-wide hidden sm:block">STATUS: <span
+                class="text-emerald-400" id="home-form-status">AWAITING INPUT</span></p>
+            <button type="submit" id="home-submit-btn"
+              class="sm:w-auto w-full px-10 py-3.5 bg-royal-600 text-white rounded-lg font-semibold uppercase tracking-wider hover:bg-royal-500 transition-all shadow-lg shadow-royal-600/30 hover:shadow-royal-500/40 hover:-translate-y-0.5 text-sm flex items-center justify-center gap-2">
+              <svg id="home-submit-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              Transmit Request
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Corporate Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
+        </div>
       </div>
     </div>
   </footer>
@@ -345,8 +1316,119 @@
   <!-- EmailJS Configuration -->
   <script src="js/emailjs-config.js"></script>
   <script src="js/script.js"></script>
+  <!-- Flow-reveal scroll animations observer -->
+  <script>
+      (function () {
+        const FLOW_SELECTORS = '.flow-reveal, .flow-left, .flow-scale, .flow-cta';
+        const els = document.querySelectorAll(FLOW_SELECTORS);
+        if (!els.length) return;
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('visible');
+              obs.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+        els.forEach(el => obs.observe(el));
+      })();
+  </script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
+
+  <script>
+    // Navbar scroll-shrink
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 40) {
+        header.classList.add('scrolled');
+        header.querySelector('.nav-inner').classList.replace('h-20', 'h-14');
+      } else {
+        header.classList.remove('scrolled');
+        header.querySelector('.nav-inner').classList.replace('h-14', 'h-20');
+      }
+    }, { passive: true });
+
+    // Hamburger -> X animation and Menu Toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        const isOpen = mobileBtn.classList.contains('open');
+
+        if (!isOpen) {
+          // Open menu
+          mobileBtn.classList.add('open');
+          mobileMenu.classList.remove('hidden');
+          mobileMenu.style.display = 'flex';
+          // small delay to allow display:flex to apply before opacity transition
+          setTimeout(() => {
+            mobileMenu.classList.remove('opacity-0');
+          }, 10);
+          document.body.style.overflow = 'hidden';
+        } else {
+          // Close menu
+          mobileBtn.classList.remove('open');
+          mobileMenu.classList.add('opacity-0');
+          setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.style.display = '';
+          }, 300);
+          document.body.style.overflow = '';
+        }
+      });
+
+      // Close menu when clicking links
+      const mobileLinks = mobileMenu.querySelectorAll('a');
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          mobileBtn.classList.remove('open');
+          mobileMenu.classList.add('opacity-0');
+          setTimeout(() => {
+            mobileMenu.classList.add('hidden');
+            mobileMenu.style.display = '';
+          }, 300);
+          document.body.style.overflow = '';
+        });
+      });
+    }
+
+    // Scroll-reveal via IntersectionObserver
+    const revealEls = document.querySelectorAll('.reveal');
+    if (revealEls.length) {
+      const revealObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      revealEls.forEach(el => revealObs.observe(el));
+    }
+
+    // Count-up animation
+    const countEls = document.querySelectorAll('.count-num');
+    if (countEls.length) {
+      const countObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            const el = e.target;
+            const target = parseInt(el.dataset.target, 10);
+            const suffix = el.dataset.suffix || '';
+            const isDecimal = el.dataset.decimal === 'true';
+            const duration = 1400;
+            const start = performance.now();
+            const animate = (now) => {
+              const progress = Math.min((now - start) / duration, 1);
+              const eased = 1 - Math.pow(1 - progress, 3);
+              const val = isDecimal ? (eased * (target / 10)).toFixed(1) : Math.round(eased * target);
+              el.textContent = val + suffix;
+              if (progress < 1) requestAnimationFrame(animate);
+            };
+            requestAnimationFrame(animate);
+            countObs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.5 });
+      countEls.forEach(el => countObs.observe(el));
+    }
+  </script>
 </body>
 
 </html>

@@ -1,130 +1,222 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description"
-    content="Get in touch with MacroInception.com – Let's discuss your AI infrastructure needs." />
-  <!-- FAVICONS -->
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
-  <link rel="shortcut icon" href="assets/favicon.ico" />
+  <meta name="description" content="Get in touch with MacroInception.com – Initiate secure communications." />
+  <title>Contact | MacroInception.com</title>
 
-  <!-- PNG favicons (various sizes) -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
-
-  <!-- Apple Touch Icon (iOS home screen) -->
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
-
-  <!-- Android Chrome M39+ (adaptive icons) -->
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
-  <title>Contact Us | MacroInception.com</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <!-- EmailJS SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              400: '#94a3b8',
+              500: '#64748b',
+              800: '#1e293b',
+              900: '#0f172a',
+              950: '#020617',
+            },
+            royal: {
+              400: '#60a5fa',
+              500: '#3b82f6',
+              600: '#2563eb',
+              900: '#1e3a8a',
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hero-anim {
+      opacity: 0;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-1 {
+      animation-delay: 0.15s;
+    }
+
+    .hero-anim-2 {
+      animation-delay: 0.30s;
+    }
+
+    .hero-anim-3 {
+      animation-delay: 0.50s;
+    }
+
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-anim {
+        opacity: 1 !important;
+        animation: none !important;
+      }
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity .65s cubic-bezier(.22, 1, .36, 1), transform .65s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flow-scale {
+      opacity: 0;
+      transform: scale(.88);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .flow-cta {
+      opacity: 0;
+      transform: scale(.92) translateY(20px);
+      transition: opacity .55s cubic-bezier(.22, 1, .36, 1), transform .55s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    /* ── Bento-card hover ───────────────────────────── */
+    .bento-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .bento-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 30px rgba(59, 130, 246, .12), 0 8px 32px rgba(0, 0, 0, .35) !important;
+      transform: translateY(-3px) !important;
+    }
+
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .5), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    /* ── Why-card hover ─────────────────────────────── */
+    .why-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .45), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, .35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, .10), 0 6px 24px rgba(0, 0, 0, .3) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flow-reveal,
+      .flow-scale,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .why-card::before,
+      .bento-card::before {
+        display: none;
+      }
+
+      .bento-card:hover,
+      .why-card:hover {
+        transform: none !important;
+      }
+    }
+  </style>
 </head>
-
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
-
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="case-studies.html">Case Studies</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
-  </header>
-
-  <!-- Overlay for mobile menu -->
-  <div class="nav-overlay"></div>
-
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>Let's build something great together</h2>
-        <p>
-          Whether you're looking to prototype a new AI system, scale existing
-          infrastructure, or optimize performance, we're here to help. Reach
-          out for a free consultation.
-        </p>
-      </div>
-      <img class="hero-img" src="assets/contact.webp" alt="Communication" />
-    </section>
-
-    <!-- Contact Form -->
-    <section class="contact">
-      <h3>Send Us a Message</h3>
-      <p>
-        Fill out the form below and we'll get back to you within 24 hours.
-      </p>
-
-      <form id="contact-form" onsubmit="handleFormSubmit(event, 'contact')">
-        <input type="text" id="contact-name" name="name" placeholder="Your Name *" required />
-        <input type="email" id="contact-email" name="email" placeholder="Work Email *" required />
-        <input type="text" id="contact-company" name="company" placeholder="Company Name" />
-        <input type="tel" id="contact-phone" name="phone" placeholder="Phone Number (optional)" />
-
-        <select id="contact-interest" name="interest" style="
-              background: #1e293b;
-              border: 2px solid #334155;
-              color: #fff;
-              padding: 0.8rem 1rem;
-              border-radius: 6px;
-              font-size: 1rem;
-              font-family: 'Poppins', sans-serif;
-            ">
-          <option value="">What are you interested in? *</option>
-          <option value="consultation">Free Consultation</option>
-          <option value="project">Project Quote</option>
-          <option value="retainer">Retainer Engagement</option>
-          <option value="training">Training & Workshops</option>
-          <option value="support">Support & Maintenance</option>
-          <option value="other">Other</option>
-        </select>
-
-        <textarea id="contact-message" name="message"
-          placeholder="Tell us about your project, timeline, and any specific requirements... *" rows="6"
-          required></textarea>
-
-        <div style="
-              display: flex;
-              align-items: center;
-              gap: 0.75rem;
-              margin: 1rem 0;
-            ">
-          <input type="checkbox" id="contact-newsletter" name="newsletter" style="width: auto; margin: 0" />
-          <label for="contact-newsletter" style="color: #cbd5e1; font-size: 0.9rem; margin: 0">Send me updates about AI
-            infrastructure best practices</label>
-        </div>
-
-        <button type="submit">Send Message</button>
-
-        <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 1rem">
-          By submitting this form, you agree to our privacy policy. We'll
-          never share your information.
-        </p>
-      </form>
-    </section>
-
-    <!-- Other Contact Methods -->
-    <section>
-      <h3>Other Ways to Reach Us</h3>
 
       <div class="cards contact-cards">
         <div class="card">
@@ -135,148 +227,462 @@
           <p>For general inquiries and project discussions</p>
         </div>
 
-        <div class="card">
-          <h4>Schedule a Call</h4>
-          <p style="margin: 1rem 0">
-            Book a 30-minute discovery call to discuss your needs
-          </p>
-          <div class="hero-buttons" style="margin-top: 2rem; display: flex; justify-content: center">
-            <a href="#" class="btn-outline" style="display: inline-block; margin-top: 0.5rem">Book a Call</a>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="index.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Home</a>
+          <a href="services.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Services</a>
+          <a href="case-studies.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Case
+            Studies</a>
+          <a href="pricing.html"
+            class="text-sm font-medium text-navy-400 hover:text-white transition-colors py-2">Pricing</a>
+          <!-- Company Dropdown -->
+          <div class="relative group">
+            <button
+              class="text-navy-400 group-hover:text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none">
+              Company
+              <svg class="w-3.5 h-3.5 text-navy-500 group-hover:text-royal-400 transition-colors" fill="none"
+                viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <!-- Dropdown Menu -->
+            <div
+              class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+              <div class="absolute -top-4 left-0 w-full h-4"></div>
+              <div class="p-2 flex flex-col">
+                <a href="about.html"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                    </path>
+                  </svg>
+                  About Us
+                </a>
+                <a href="#"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                  <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                    </path>
+                  </svg>
+                  Blog (Soon)
+                </a>
+              </div>
+            </div>
           </div>
+          <a href="contact.html"
+            class="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 bg-royal-600 border border-transparent rounded-lg shadow-[0_0_20px_rgba(37,99,235,0.5)]">
+            Contact Us
+          </a>
         </div>
 
-        <div class="card">
-          <h4>Response Time</h4>
-          <p style="margin: 1rem 0">
-            We typically respond within 24 hours on business days
-          </p>
-          <p style="color: #94a3b8; font-size: 0.9rem">
-            Urgent? Mark your message as high priority
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section>
-      <h3>Before You Reach Out</h3>
-      <p>Quick answers to common questions.</p>
-
-      <div class="cards">
-        <div class="card">
-          <h4>What information should I include?</h4>
-          <p>
-            Help us understand your project by sharing: your technical
-            requirements, timeline, budget range (if known), and any existing
-            infrastructure or constraints.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Do you offer free consultations?</h4>
-          <p>
-            Yes! We offer a free 30-minute initial consultation to discuss
-            your needs and determine if we're a good fit.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>What's your typical project timeline?</h4>
-          <p>
-            Projects typically range from 6-20 weeks depending on complexity.
-            We'll provide a detailed timeline during our initial consultation.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Do you work with startups?</h4>
-          <p>
-            Absolutely. We work with organizations of all sizes, from
-            early-stage startups to Fortune 500 companies.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>Can you sign an NDA?</h4>
-          <p>
-            Yes, we're happy to sign NDAs before discussing your project
-            details. Just let us know in your message.
-          </p>
-        </div>
-
-        <div class="card">
-          <h4>What if I'm not sure what I need?</h4>
-          <p>
-            No problem! Our consultation includes needs assessment and
-            recommendations. We'll help you identify the right approach.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Location & Availability -->
-    <section class="text-center">
-      <h3>We Work Globally</h3>
-      <p style="max-width: 600px; margin: 0 auto 2rem">
-        While our team is distributed across multiple time zones, we primarily
-        serve clients in North America, Europe, and Asia. We're flexible with
-        meeting times to accommodate your schedule.
-      </p>
-
-      <div class="stats" style="max-width: 800px; margin: 0 auto">
-        <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr))">
-          <div class="stat">
-            <span class="number" style="font-size: 2rem">24h</span>
-            <span class="label">Response Time</span>
-          </div>
-          <div class="stat">
-            <span class="number" style="font-size: 2rem">15+</span>
-            <span class="label">Time Zones</span>
-          </div>
-          <div class="stat">
-            <span class="number" style="font-size: 2rem">100%</span>
-            <span class="label">Remote-Friendly</span>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
-      </div>
-
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
-        </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
-        </div>
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+          <span class="w-6 h-0.5 bg-white"></span>
+        </button>
       </div>
     </div>
+  </nav>
 
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu"
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    <a href="index.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
+    <a href="services.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Services</a>
+    <a href="case-studies.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Case Studies</a>
+    <a href="pricing.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Pricing</a>
+    <!-- Company Section for Mobile -->
+    <a href="about.html"
+      class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
+    <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+      (Soon)</a>
+    <a href="contact.html"
+      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+      Us</a>
+  </div>
+
+  <main class="flex-grow relative z-10 bg-transparent pt-32 pb-24">
+
+    <!-- Hero / Intro -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24 text-center">
+      <div
+        class="hero-anim hero-anim-1 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-900/30 text-emerald-400 text-xs font-mono font-semibold uppercase tracking-wider border border-emerald-500/20 mb-8 mt-12">
+        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        Secure Channel Active
+      </div>
+      <h1 class="hero-anim hero-anim-2 text-5xl md:text-7xl font-bold font-heading text-white tracking-tight mb-8">
+        Initiate <span
+          class="bg-gradient-to-r from-royal-400 to-cyan-300 bg-clip-text text-transparent">Communication</span>.
+      </h1>
+      <p class="hero-anim hero-anim-3 text-xl text-navy-400 leading-relaxed max-w-2xl mx-auto">
+        Directly access our infrastructure architects. We bypass standard sales flows to put you in contact with
+        engineers who can evaluate your payload immediately.
+      </p>
+    </section>
+
+    <!-- Secure Terminal & SLAs -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-32">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+        <!-- The Terminal Form -->
+        <div
+          class="lg:col-span-8 bg-navy-950/80 backdrop-blur-md border border-navy-800 rounded-2xl p-8 md:p-12 relative overflow-hidden shadow-2xl shadow-navy-950">
+          <!-- Terminal Header -->
+          <div class="flex items-center justify-between border-b border-navy-800 pb-6 mb-8">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <h3 class="text-white font-mono text-sm tracking-widest uppercase">System Initialization</h3>
+            </div>
+            <div class="font-mono text-xs text-navy-500">256-BIT ENCRYPTION</div>
+          </div>
+
+          <form id="contact-form" onsubmit="handleFormSubmit(event, 'contact')" class="space-y-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="group">
+                <label for="contact-name"
+                  class="block text-xs font-mono text-navy-400 uppercase tracking-widest mb-2 group-focus-within:text-royal-400 transition-colors">Operator
+                  Name *</label>
+                <input type="text" id="contact-name" name="name" required
+                  class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder-navy-600 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all font-sans text-sm"
+                  placeholder="John Doe" />
+              </div>
+              <div class="group">
+                <label for="contact-email"
+                  class="block text-xs font-mono text-navy-400 uppercase tracking-widest mb-2 group-focus-within:text-royal-400 transition-colors">Secure
+                  Email *</label>
+                <input type="email" id="contact-email" name="email" required
+                  class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder-navy-600 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all font-sans text-sm"
+                  placeholder="john@enterprise.com" />
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="group">
+                <label for="contact-company"
+                  class="block text-xs font-mono text-navy-400 uppercase tracking-widest mb-2 group-focus-within:text-royal-400 transition-colors">Organization</label>
+                <input type="text" id="contact-company" name="company"
+                  class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder-navy-600 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all font-sans text-sm"
+                  placeholder="Corporate Entity" />
+              </div>
+              <div class="group">
+                <label for="contact-interest"
+                  class="block text-xs font-mono text-navy-400 uppercase tracking-widest mb-2 group-focus-within:text-royal-400 transition-colors">Directive
+                  *</label>
+                <select id="contact-interest" name="interest" required
+                  class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all font-sans text-sm appearance-none cursor-pointer">
+                  <option value="" disabled selected class="text-navy-600">Select Operation Type...</option>
+                  <option value="consultation" class="bg-navy-900">Architecture Consultation</option>
+                  <option value="project" class="bg-navy-900">Project Provisioning Quote</option>
+                  <option value="retainer" class="bg-navy-900">Ops Retainer Engagement</option>
+                  <option value="support" class="bg-navy-900">Emergency Support</option>
+                  <option value="other" class="bg-navy-900">Other Communications</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="group">
+              <label for="contact-message"
+                class="block text-xs font-mono text-navy-400 uppercase tracking-widest mb-2 group-focus-within:text-royal-400 transition-colors">Payload
+                Details *</label>
+              <textarea id="contact-message" name="message" rows="5" required
+                class="w-full bg-navy-950/50 border border-navy-700 rounded-lg px-4 py-3 text-white placeholder-navy-600 focus:outline-none focus:border-royal-500 focus:ring-1 focus:ring-royal-500 transition-all font-sans text-sm"
+                placeholder="Include architectural requirements, latency constraints, and expected data volumes..."></textarea>
+            </div>
+
+            <div class="flex items-start gap-3 mt-6 pb-6 border-b border-navy-800">
+              <div class="flex items-center h-5">
+                <input type="checkbox" id="contact-newsletter" name="newsletter"
+                  class="w-4 h-4 bg-navy-950 border border-navy-700 rounded rounded-sm focus:ring-0 checked:bg-royal-500 transition-colors" />
+              </div>
+              <label for="contact-newsletter" class="text-sm text-navy-400">
+                Grant clearance for occasional telemetry updates and engineering case studies.
+              </label>
+            </div>
+
+            <div class="flex items-center justify-between pt-4">
+              <p class="text-xs text-navy-500 font-mono tracking-wide hidden sm:block">STATUS: <span
+                  class="text-emerald-400">AWAITING INPUT</span></p>
+              <button type="submit"
+                class="inline-flex items-center gap-2 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white font-mono text-sm tracking-widest uppercase rounded-lg transition-all shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:shadow-[0_0_25px_rgba(37,99,235,0.6)]">
+                Transmit
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3">
+                  </path>
+                </svg>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Service Level Agreements (SLAs) -->
+        <div class="lg:col-span-4 space-y-6">
+          <div
+            class="why-card bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 hover:-translate-y-1 transition-colors border border-navy-800 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded bg-navy-800 flex items-center justify-center">
+                <svg class="w-4 h-4 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+              </div>
+              <h4 class="text-white font-bold tracking-wide">P1 Response Time</h4>
+            </div>
+            <p class="text-sm text-navy-400 leading-relaxed font-mono">
+              Inquiries are routed directly to active engineers. Expect architectural assessment within <span
+                class="text-emerald-400 font-bold">&lt; 24 hours</span> during operational periods.
+            </p>
+          </div>
+
+          <div
+            class="why-card bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 hover:-translate-y-1 transition-colors border border-navy-800 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded bg-navy-800 flex items-center justify-center">
+                <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                  </path>
+                </svg>
+              </div>
+              <h4 class="text-white font-bold tracking-wide">Strict NDA Protocols</h4>
+            </div>
+            <p class="text-sm text-navy-400 leading-relaxed font-mono">
+              We operate under implicit confidentiality. Formal Non-Disclosure Agreements can be executed immediately
+              prior to deep technical payload transfers.
+            </p>
+          </div>
+
+          <div class="bg-navy-900/40 backdrop-blur-sm border border-navy-800 rounded-xl p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-8 h-8 rounded bg-navy-800 flex items-center justify-center">
+                <svg class="w-4 h-4 text-royal-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                  </path>
+                </svg>
+              </div>
+              <h4 class="text-white font-bold tracking-wide">Direct Operations</h4>
+            </div>
+            <div class="space-y-2 mt-4">
+              <p class="text-sm text-royal-400 font-mono">ops@macroinception.com</p>
+              <p class="text-xs text-navy-500">GPG Keys available upon request for highly sensitive architectural
+                details.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Pre-requisites -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
+      <div class="border-t border-navy-800 pt-16">
+        <h3 class="text-2xl font-bold font-heading text-white mb-6 text-center">Transmission Pre-requisites</h3>
+        <p class="text-navy-400 text-center text-sm mb-10">To accelerate the auditing process, please ensure your
+          payload includes:</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex gap-4">
+            <div class="text-royal-500 mt-1">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-white font-bold text-sm mb-1">Latency Constraints</h4>
+              <p class="text-xs text-navy-400">Define your absolute maximum inference times (e.g. &lt;200ms).</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-royal-500 mt-1">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-white font-bold text-sm mb-1">Data Volume</h4>
+              <p class="text-xs text-navy-400">Specify expected vector sizes or daily processing throughput in
+                gigabytes/terabytes.</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-royal-500 mt-1">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-white font-bold text-sm mb-1">Existing Topologies</h4>
+              <p class="text-xs text-navy-400">Note your current cloud provider (AWS/GCP/Azure) or on-premise hardware
+                limits.</p>
+            </div>
+          </div>
+          <div class="flex gap-4">
+            <div class="text-royal-500 mt-1">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <div>
+              <h4 class="text-white font-bold text-sm mb-1">Timeline Objectives</h4>
+              <p class="text-xs text-navy-400">State your hard deadlines for beta and production rollouts.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
+        </div>
       </div>
     </div>
   </footer>
 
-  <!-- EmailJS Configuration -->
+  <!-- Scripts -->
   <script src="js/emailjs-config.js"></script>
   <script src="js/script.js"></script>
+  <script>
+    // Mobile Menu Toggle
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    let isMenuOpen = false;
+
+    btn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      btn.classList.toggle('open', isMenuOpen);
+      if (isMenuOpen) {
+        menu.classList.remove('hidden');
+        menu.style.display = 'flex';
+        setTimeout(() => menu.classList.remove('opacity-0'), 10);
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu.classList.add('opacity-0');
+        setTimeout(() => { menu.classList.add('hidden'); menu.style.display = ''; }, 300);
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Handle Form Status Update
+    const form = document.getElementById('contact-form');
+    const statusText = document.querySelector('.text-emerald-400');
+
+    if (form) {
+      form.addEventListener('submit', () => {
+        if (statusText) {
+          statusText.textContent = 'TRANSMITTING...';
+          statusText.classList.remove('text-emerald-400');
+          statusText.classList.add('text-royal-400', 'animate-pulse');
+        }
+      });
+
+      // Reset status if emailjs succeeds (assuming handleFormSubmit triggers window events or reloads, 
+      // but we add a quick visual reset for the user just in case)
+      window.addEventListener('message_sent', () => {
+        if (statusText) {
+          statusText.textContent = 'TRANSMITTED';
+          statusText.classList.remove('text-royal-400', 'animate-pulse');
+          statusText.classList.add('text-emerald-400');
+        }
+      });
+    }
+  </script>
+  <!-- Flow-reveal scroll animations observer -->
+  <script>
+    (function () {
+      const els = document.querySelectorAll('.flow-reveal,.flow-scale,.flow-cta');
+      if (!els.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+      els.forEach(el => obs.observe(el));
+    })();
+  </script>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
 </body>

@@ -20,31 +20,462 @@
   <link rel="icon" type="image/png" sizes="192x192" href="assets/android-chrome-192x192.png" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/android-chrome-512x512.png" />
   <title>Services | MacroInception.com</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            heading: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              950: '#020617',
+              900: '#0f172a',
+              800: '#1e293b',
+              700: '#243050',
+              500: '#64748B',
+              400: '#94a3b8',
+              300: '#94A3B8'
+            },
+            royal: {
+              400: '#60A5FA',
+              500: '#3B82F6',
+              600: '#2563EB',
+              900: '#1E3A8A'
+            }
+          },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+            'spin-slow': 'spin 12s linear infinite',
+            'shimmer': 'shimmer 2s infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            shimmer: {
+              '100%': { transform: 'translateX(100%)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Hero stagger */
+    .hero-anim {
+      opacity: 0;
+      animation: fadeInUp 0.7s ease forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-1 {
+      animation-delay: 0.10s;
+    }
+
+    /* ── Flow-reveal scroll animations ─────────────────────── */
+    .flow-reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Slide in from left */
+    .flow-left {
+      opacity: 0;
+      transform: translateX(-36px);
+      transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* Scale-up reveal (for how-we-work cards) */
+    .flow-scale {
+      opacity: 0;
+      transform: translateY(32px) scale(0.97);
+      transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-scale.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Tech stack panel slide-in */
+    .flow-panel {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-panel.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* CTA section */
+    .flow-cta {
+      opacity: 0;
+      transform: translateY(28px) scale(0.98);
+      transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .flow-cta.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Blue service number in ss-cards */
+    .ss-step-num {
+      font-size: 4.5rem;
+      font-family: ui-monospace, monospace;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 60%, #93C5FD 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      opacity: 0.75;
+      margin-bottom: 0.5rem;
+    }
+
+    .ss-step-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.2rem 0.65rem;
+      border-radius: 0.375rem;
+      background: rgba(59, 130, 246, 0.08);
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      color: #60A5FA;
+      font-size: 0.65rem;
+      font-family: ui-monospace, monospace;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+    }
+
+    .ss-step-tag::before {
+      content: '';
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #60A5FA;
+      flex-shrink: 0;
+    }
+
+    /* ── Why-card hover (used by ss-cards) ── */
+    .why-card {
+      position: relative;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s, background-color .3s;
+    }
+
+    .why-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.45), transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+
+    .why-card:hover::before {
+      opacity: 1;
+    }
+
+    .why-card:hover {
+      border-color: rgba(96, 165, 250, 0.35) !important;
+      box-shadow: 0 0 28px rgba(59, 130, 246, 0.10), 0 6px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .flow-reveal,
+      .flow-left,
+      .flow-scale,
+      .flow-panel,
+      .flow-cta {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+
+      .why-card::before {
+        display: none;
+      }
+    }
+
+    /* ── Technology Stack Enhanced Animations ───────────────── */
+    @keyframes techCardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Each tech chip animates in when its parent panel is shown */
+    .matrix-content.active .tech-chip {
+      animation: techCardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .tech-chip {
+      position: relative;
+      overflow: hidden;
+      cursor: crosshair;
+      transition: border-color 0.25s, background-color 0.25s, transform 0.25s, box-shadow 0.25s;
+    }
+
+    /* Glow on hover */
+    .tech-chip:hover {
+      border-color: rgba(96, 165, 250, 0.45) !important;
+      background-color: rgba(59, 130, 246, 0.08) !important;
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 18px rgba(59, 130, 246, 0.18), 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .tech-chip:hover .tech-name {
+      color: #60A5FA !important;
+    }
+
+    /* Scan-line sweep on hover */
+    .tech-chip::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.08), transparent);
+      transition: left 0s;
+      pointer-events: none;
+    }
+
+    .tech-chip:hover::after {
+      left: 150%;
+      transition: left 0.45s ease;
+    }
+
+    /* Sliding indicator on left menu */
+    .matrix-btn {
+      position: relative;
+    }
+
+    .matrix-btn.active-tab {
+      background: rgba(59, 130, 246, 0.12);
+      color: #fff;
+    }
+
+    .matrix-btn.active-tab::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 20%;
+      height: 60%;
+      width: 2px;
+      border-radius: 2px;
+      background: #3B82F6;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.7);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .matrix-content.active .tech-chip {
+        animation: none;
+        opacity: 1;
+      }
+
+      .tech-chip:hover {
+        transform: none;
+      }
+
+      .tech-chip::after {
+        display: none;
+      }
+    }
+
+    .hero-anim-2 {
+      animation-delay: 0.25s;
+    }
+
+    .hero-anim-3 {
+      animation-delay: 0.40s;
+    }
+
+    .hero-anim-4 {
+      animation-delay: 0.55s;
+    }
+
+    /* Hamburger -> X */
+    #mobile-menu-btn.open span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    #mobile-menu-btn.open span:nth-child(2) {
+      opacity: 0;
+      transform: scaleX(0);
+    }
+
+    #mobile-menu-btn.open span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    #mobile-menu-btn span {
+      transform-origin: center;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .hero-anim {
+        opacity: 1 !important;
+        animation: none !important;
+      }
+    }
+  </style>
 </head>
 
-<body>
-  <div id="particles-js"></div>
-  <header class="navbar">
-    <a href="index.html" class="logo">
-      <img src="assets/logo.webp" alt="" />
-    </a>
+<body class="bg-navy-950 text-navy-400 font-sans antialiased selection:bg-royal-600/30">
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full"></div>
 
-    <!-- Burger Menu Button -->
-    <button class="burger" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+  <!-- Premium Glass Navbar (Enterprise) -->
+  <header
+    class="fixed top-0 w-full z-50 backdrop-blur-md bg-navy-950/80 border-b border-navy-800 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 group">
+        <div
+          class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+          <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+          <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+        </div>
+        <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+            class="text-royal-400">Inception</span></span>
+      </a>
 
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html" class="active">Services</a>
-      <a href="case-studies.html">Case Studies</a>
-      <a href="pricing.html">Pricing</a>
-      <a href="contact.html" class="cta">Contact</a>
-    </nav>
+      <!-- Mobile Menu Button -->
+      <button class="md:hidden flex flex-col gap-1.5 p-2 z-50" aria-label="Toggle menu" id="mobile-menu-btn">
+        <span class="w-6 h-0.5 bg-white transition-all"></span>
+        <span class="w-6 h-0.5 bg-white transition-all"></span>
+        <span class="w-6 h-0.5 bg-white transition-all"></span>
+      </button>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu"
+        class="fixed inset-0 z-[999] bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+        <a href="index.html"
+          class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
+        <a href="services.html"
+          class="text-2xl font-heading font-semibold text-royal-400 transition-colors">Services</a>
+        <a href="case-studies.html"
+          class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Case Studies</a>
+        <a href="pricing.html"
+          class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Pricing</a>
+        <a href="about.html"
+          class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
+        <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
+          (Soon)</a>
+        <a href="contact.html"
+          class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
+          Us</a>
+      </div>
+      <!-- Desktop Nav -->
+      <nav class="hidden md:flex items-center gap-8">
+        <a href="index.html" class="text-navy-400 font-medium text-sm hover:text-white transition-colors">Home</a>
+        <a href="services.html"
+          class="text-white font-medium text-sm relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-full after:bg-royal-500">Services</a>
+        <a href="case-studies.html" class="text-navy-400 font-medium text-sm hover:text-white transition-colors">Case
+          Studies</a>
+        <a href="pricing.html" class="text-navy-400 font-medium text-sm hover:text-white transition-colors">Pricing</a>
+        <!-- Company Dropdown (Active state for about.html) -->
+        <div class="relative group">
+          <button
+            class="text-navy-400 group-hover:text-white font-medium text-sm transition-colors flex items-center gap-1.5 focus:outline-none">
+            Company
+            <svg class="w-3.5 h-3.5 text-navy-500 group-hover:text-royal-400 transition-colors" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div
+            class="absolute left-0 mt-4 w-48 rounded-xl bg-navy-950/95 backdrop-blur-xl border border-navy-800 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform translate-y-2 group-hover:translate-y-0 z-50">
+            <!-- Invisible bridge to keep hover active -->
+            <div class="absolute -top-4 left-0 w-full h-4"></div>
+
+            <div class="p-2 flex flex-col">
+              <a href="about.html"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                  </path>
+                </svg>
+                About Us
+              </a>
+              <a href="#"
+                class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-navy-300 hover:text-white hover:bg-navy-900/50 transition-colors">
+                <svg class="w-4 h-4 text-royal-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z">
+                  </path>
+                </svg>
+                Blog (Soon)
+              </a>
+            </div>
+          </div>
+        </div>
+        <a href="contact.html"
+          class="px-5 py-2.5 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-medium text-sm transition-all shadow-lg hover:shadow-royal-500/25">Contact
+          Us</a>
+      </nav>
+    </div>
   </header>
 
   <!-- Overlay for mobile menu -->
@@ -52,366 +483,1274 @@
 
   <main>
     <!-- Hero Section -->
-    <section class="hero">
-      <div class="hero-text">
-        <h2>End-to-end AI systems engineering</h2>
-        <p>
-          From initial prototyping to production deployment and ongoing
-          optimization, we provide comprehensive services to build, scale, and
-          maintain high-performance AI infrastructure.
-        </p>
-        <div class="hero-buttons">
-          <a href="contact.html" class="btn-primary">Discuss Your Project</a>
-          <a href="pricing.html" class="btn-outline">View Pricing</a>
+    <header class="w-full relative px-4 pt-40 pb-20 overflow-hidden bg-transparent">
+      <!-- Background Gradient underlay -->
+      <div class="absolute inset-0 bg-gradient-to-b from-navy-950 to-navy-900 pointer-events-none -z-10"></div>
+
+      <!-- Subtle glow -->
+      <div
+        class="absolute top-1/2 right-0 -translate-y-1/2 w-[600px] h-[600px] bg-royal-600/5 rounded-full blur-[100px] pointer-events-none">
+      </div>
+
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12 relative z-10">
+        <div class="flex-1 text-center md:text-left">
+          <p class="hero-anim hero-anim-1 text-royal-400 font-semibold mb-4 tracking-wider uppercase text-sm">Our
+            Capabilities</p>
+          <h1
+            class="hero-anim hero-anim-2 font-heading text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-[1.1]">
+            End-to-end AI systems <br /><span
+              class="text-transparent bg-clip-text bg-gradient-to-r from-royal-400 to-blue-400">engineering</span></h1>
+          <p
+            class="hero-anim hero-anim-3 text-xl text-navy-400 mb-10 max-w-2xl mx-auto md:mx-0 font-medium leading-relaxed">
+            From initial
+            prototyping to production
+            deployment and ongoing optimization, we provide comprehensive services to build, scale, and maintain
+            high-performance AI infrastructure.</p>
+          <div class="hero-anim hero-anim-4 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a href="contact.html"
+              class="px-8 py-4 bg-royal-600 text-white font-medium rounded-lg hover:bg-royal-500 transition-all shadow-lg hover:shadow-royal-500/25 hover:-translate-y-0.5 text-lg">Discuss
+              Your Project</a>
+            <a href="pricing.html"
+              class="px-8 py-4 bg-navy-800 border border-navy-700 text-white font-medium rounded-lg hover:bg-navy-700 transition-all text-lg flex items-center justify-center gap-3">View
+              Pricing</a>
+          </div>
+        </div>
+        <div class="hidden md:block flex-1 relative">
+          <!-- Architecture Diagram Placeholder -->
+          <svg class="w-full max-w-lg mx-auto drop-shadow-[0_0_30px_rgba(37,99,235,0.1)]" viewBox="0 0 500 400"
+            fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <!-- Glow gradient for circles -->
+              <radialGradient id="glowLeft" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#2563EB" stop-opacity="0.25" />
+                <stop offset="100%" stop-color="#2563EB" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="glowTop" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#60A5FA" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="glowBottom" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#60A5FA" stop-opacity="0.2" />
+                <stop offset="100%" stop-color="#60A5FA" stop-opacity="0" />
+              </radialGradient>
+              <radialGradient id="glowRight" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.18" />
+                <stop offset="100%" stop-color="#3B82F6" stop-opacity="0" />
+              </radialGradient>
+              <!-- Paths for animateMotion -->
+              <path id="pathTL" d="M150 200 Q 150 100 200 100" />
+              <path id="pathBL" d="M150 200 Q 150 300 200 300" />
+              <path id="pathTR" d="M300 100 Q 325 100 350 150" />
+              <path id="pathBR" d="M300 300 Q 325 300 350 250" />
+            </defs>
+
+            <!-- Large faint background orbit ring — slow rotation -->
+            <circle cx="270" cy="200" r="160" stroke="#1e3a5f" stroke-width="0.8" stroke-opacity="0.4"
+              stroke-dasharray="6 10">
+              <animateTransform attributeName="transform" type="rotate" from="0 270 200" to="360 270 200" dur="30s"
+                repeatCount="indefinite" />
+            </circle>
+
+            <!-- Connection paths with draw-in animation -->
+            <path id="p1" d="M150 200 Q 150 100 200 100" stroke="#2563EB" stroke-width="1.5" stroke-opacity="0.5"
+              fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="1.2s" fill="freeze" calcMode="spline"
+                keySplines="0.25 0.1 0.25 1" />
+            </path>
+            <path id="p2" d="M150 200 Q 150 300 200 300" stroke="#2563EB" stroke-width="1.5" stroke-opacity="0.5"
+              fill="none" stroke-dasharray="200" stroke-dashoffset="200">
+              <animate attributeName="stroke-dashoffset" from="200" to="0" dur="1.2s" begin="0.15s" fill="freeze"
+                calcMode="spline" keySplines="0.25 0.1 0.25 1" />
+            </path>
+            <path id="p3" d="M300 100 Q 325 100 350 150" stroke="#3B82F6" stroke-width="1.5" stroke-opacity="0.4"
+              fill="none" stroke-dasharray="120" stroke-dashoffset="120">
+              <animate attributeName="stroke-dashoffset" from="120" to="0" dur="0.9s" begin="0.3s" fill="freeze"
+                calcMode="spline" keySplines="0.25 0.1 0.25 1" />
+            </path>
+            <path id="p4" d="M300 300 Q 325 300 350 250" stroke="#3B82F6" stroke-width="1.5" stroke-opacity="0.4"
+              fill="none" stroke-dasharray="120" stroke-dashoffset="120">
+              <animate attributeName="stroke-dashoffset" from="120" to="0" dur="0.9s" begin="0.45s" fill="freeze"
+                calcMode="spline" keySplines="0.25 0.1 0.25 1" />
+            </path>
+
+            <!-- Glow halos behind circles -->
+            <circle cx="150" cy="200" r="55" fill="url(#glowLeft)">
+              <animate attributeName="r" values="55;65;55" dur="4s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="1;0.6;1" dur="4s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="250" cy="100" r="65" fill="url(#glowTop)">
+              <animate attributeName="r" values="65;78;65" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="1;0.5;1" dur="5s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="250" cy="300" r="65" fill="url(#glowBottom)">
+              <animate attributeName="r" values="65;78;65" dur="6s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="1;0.5;1" dur="6s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="400" cy="200" r="80" fill="url(#glowRight)">
+              <animate attributeName="r" values="80;95;80" dur="7s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="1;0.4;1" dur="7s" repeatCount="indefinite" />
+            </circle>
+
+            <!-- Circles (floating up/down on staggered cycles) -->
+            <g>
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-6; 0,0" dur="5s"
+                repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
+              <circle cx="150" cy="200" r="40" fill="#0B132B" stroke="#2563EB" stroke-width="2" />
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,-8; 0,0" dur="6s" begin="0.5s"
+                repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
+              <circle cx="250" cy="100" r="50" fill="#0B132B" stroke="#60A5FA" stroke-width="2" />
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="translate" values="0,0; 0,8; 0,0" dur="7s" begin="1s"
+                repeatCount="indefinite" calcMode="spline" keySplines="0.45 0 0.55 1; 0.45 0 0.55 1" />
+              <circle cx="250" cy="300" r="50" fill="#0B132B" stroke="#60A5FA" stroke-width="2" />
+            </g>
+
+            <!-- Dashed circle — continuously rotates -->
+            <g>
+              <animateTransform attributeName="transform" type="rotate" from="0 400 200" to="360 400 200" dur="12s"
+                repeatCount="indefinite" />
+              <circle cx="400" cy="200" r="60" fill="#0B132B" stroke="#3B82F6" stroke-width="2"
+                stroke-dasharray="6 5" />
+            </g>
+
+            <!-- Animated dots travelling along connection paths -->
+            <circle r="3" fill="#60A5FA" opacity="0.9">
+              <animateMotion dur="3s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#p1" />
+              </animateMotion>
+            </circle>
+            <circle r="3" fill="#60A5FA" opacity="0.9">
+              <animateMotion dur="3.5s" begin="1s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#p2" />
+              </animateMotion>
+            </circle>
+            <circle r="2.5" fill="#93C5FD" opacity="0.8">
+              <animateMotion dur="2.5s" begin="0.5s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#p3" />
+              </animateMotion>
+            </circle>
+            <circle r="2.5" fill="#93C5FD" opacity="0.8">
+              <animateMotion dur="3s" begin="1.5s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#p4" />
+              </animateMotion>
+            </circle>
+
+            <!-- Static ambient pulse nodes (kept but upgraded) -->
+            <circle cx="175" cy="150" r="4" fill="#60A5FA">
+              <animate attributeName="opacity" values="1;0.3;1" dur="2.2s" repeatCount="indefinite" />
+              <animate attributeName="r" values="4;6;4" dur="2.2s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="325" cy="250" r="4" fill="#60A5FA">
+              <animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite" />
+              <animate attributeName="r" values="4;6;4" dur="3s" repeatCount="indefinite" />
+            </circle>
+            <circle cx="350" cy="150" r="4" fill="#3B82F6">
+              <animate attributeName="opacity" values="1;0.3;1" dur="2.5s" repeatCount="indefinite" />
+              <animate attributeName="r" values="4;6;4" dur="2.5s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+
         </div>
       </div>
-      <img class="hero-img"
-        src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1600&auto=format&fit=crop"
-        alt="AI Infrastructure" />
-    </section>
+    </header>
 
-    <!-- Core Services -->
-    <section id="services" class="services">
-      <h3>Core Services</h3>
-      <p>Production-grade solutions for every stage of your AI journey.</p>
 
-      <div class="cards">
-        <div class="card">
-          <h4>AI Systems & Model Engineering</h4>
-          <ul>
-            <li>Custom LLM fine-tuning & instruction tuning</li>
-            <li>Agentic AI & multi-agent orchestration</li>
-            <li>
-              Multi-modal end-to-end pipeline development inclucing, Computer
-              Vision, Natural Language Processing, Audio processing and
-              Objective specified Model development.
-            </li>
-            <li>Custom model architectures & research</li>
-            <li>Transfer learning & domain adaptation</li>
-            <li>Model evaluation & benchmarking</li>
-          </ul>
-        </div>
+    <!-- Specialized Services: Kinetic Storyboard -->
+    <section class="w-full py-24 md:py-32 bg-transparent border-t border-navy-800 relative" id="specialized-services">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row gap-12 lg:gap-24 relative items-start">
 
-        <div class="card">
-          <h4>Deployment & Inference</h4>
-          <ul>
-            <li>Triton Inference Server deployment & optimization</li>
-            <li>vLLM deployment for LLM inference</li>
-            <li>FastAPI & scalable API gateways</li>
-            <li>
-              Dynamic batching, request optimization and continous batching
-            </li>
-            <li>Model quantization (INT8, FP16, GPTQ)</li>
-            <li>GPU pooling & resource management</li>
-            <li>Load balancing & autoscaling</li>
-            <li>A/B testing infrastructure</li>
-          </ul>
-        </div>
+          <!-- Sticky HUD (Left Column) -->
+          <div
+            class="w-full md:w-1/3 md:sticky md:top-32 md:h-[calc(100vh-16rem)] flex flex-col justify-between hidden md:flex z-10 transition-all duration-500">
+            <div>
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1 mb-6 rounded-full bg-royal-900/40 border border-royal-500/30 text-royal-400 text-sm font-bold tracking-widest uppercase">
+                <div
+                  class="w-2 h-2 rounded-full bg-royal-500 animate-pulse bg-opacity-80 shadow-[0_0_8px_rgba(59,130,246,0.8)]">
+                </div>
+                Capabilities
+              </div>
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
+                Specialized<br />Services</h2>
+              <p class="text-lg text-navy-400 font-medium leading-relaxed">Advanced extraction, deployment, and
+                optimization architectures engineered for absolute performance.</p>
+            </div>
 
-        <div class="card">
-          <h4>Big Data & Distributed Compute</h4>
-          <ul>
-            <li>PySpark & distributed ETL pipelines</li>
-            <li>Kubernetes & container orchestration</li>
-            <li>Data pipelines for billion-row datasets</li>
-            <li>Real-time streaming (Kafka, Flink)</li>
-            <li>Data lake & warehouse architecture</li>
-            <li>Distributed training infrastructure</li>
-            <li>GPU cluster management</li>
-            <li>Cloud & on-premise hybrid solutions</li>
-          </ul>
+            <!-- Index Readout + Service Label -->
+            <div class="flex flex-col gap-2">
+              <div
+                class="font-mono text-6xl font-black text-white tracking-tighter opacity-10 transition-all duration-300 transform origin-left"
+                id="ss-index-readout">
+                01/06
+              </div>
+              <div id="ss-service-label" class="ss-step-tag opacity-0 transition-opacity duration-300 w-fit">
+                Vector Search
+              </div>
+            </div>
+          </div>
+
+          <!-- Mobile Header (Visible only on mobile) -->
+          <div class="w-full md:hidden mb-8">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1 mb-4 rounded-full bg-royal-900/40 border border-royal-500/30 text-royal-400 text-xs font-bold tracking-widest uppercase">
+              <div class="w-1.5 h-1.5 rounded-full bg-royal-500 animate-pulse shadow-[0_0_5px_rgba(59,130,246,0.8)]">
+              </div>
+              Capabilities
+            </div>
+            <h2 class="text-4xl font-bold text-white tracking-tight mb-4">Specialized Services</h2>
+            <p class="text-navy-400 text-lg">Advanced extraction, deployment, and optimization architectures engineered
+              for absolute performance.</p>
+          </div>
+
+          <!-- Cards Scroll Array (Right Column) -->
+          <div class="w-full md:w-2/3 flex flex-col gap-12 pb-24 md:pb-32" id="ss-cards-container">
+
+            <!-- Card 1 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="Vector Search">
+              <!-- Geometric Accent -->
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">01</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">Vector Databases & Search</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> High-performance core implementations</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Disk-based indices scaling to 1B+ vectors</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Hybrid dense/sparse search indexing</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Real-time streaming updates</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Multi-modal embedding search architecture</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="Model Optimization">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">02</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">Model Optimization</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Quantization (INT8/FP8) & pruning logic</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> TensorRT & ONNX runtime acceleration</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Direct knowledge distillation pipelines</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Low-latency inference precision tuning</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> GPU memory footprint orchestration</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="MLOps">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">03</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">MLOps & Infrastructure</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Hardened CI/CD pipelines for ML models</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> State-tracking & versioning protocols</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Immutable model registry & governance</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Deep Grafana monitoring & observability</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Self-healing automated retraining</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="RAG Systems">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">04</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">RAG & Knowledge Systems</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Enterprise retrieval-augmented generation</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Parallel document processing pipelines</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Advanced chunking & embedding strategies</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Hardware-aware context window optimization</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Synchronous multi-source knowledge integration</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="Performance">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">05</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">Performance Engineering</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Latency decimation (P50, P95, P99 guarantees)</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Absolute throughput & capacity planning</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Intensive cost-performance mathematical modeling</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Profiling & strict bottleneck ablation</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Stress testing & graceful failure recovery tactics</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Card 6 -->
+            <div
+              class="ss-card why-card transform transition-all duration-700 w-full min-h-[50vh] bg-navy-950/80 hover:bg-navy-900 backdrop-blur-md border border-navy-800 rounded-[2rem] p-8 lg:p-14 shadow-2xl relative overflow-hidden group scale-[0.98] opacity-50"
+              data-service-label="Consulting">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-royal-600/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-royal-500/10 transition-colors duration-700 pointer-events-none">
+              </div>
+              <div class="relative z-10 flex flex-col justify-center h-full">
+                <div class="ss-step-num">06</div>
+                <h3 class="text-3xl lg:text-4xl font-bold text-white mb-6 tracking-tight">Enterprise Consulting</h3>
+                <div
+                  class="w-16 h-1 bg-royal-500 border border-royal-400/50 mb-10 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                </div>
+                <ul class="space-y-5 text-navy-300 font-medium text-lg">
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> High-level architecture review & topology mapping</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Penetrating technical audits & SOC2 alignment</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Standardization of best practices & runbooks</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Deep technology stack evaluation</li>
+                  <li class="flex items-start gap-4"><svg class="w-6 h-6 text-royal-500 shrink-0 mt-0.5" fill="none"
+                      viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg> Strategic AI roadmap deployment planning</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Specialized Services -->
-    <section>
-      <h3>Specialized Services</h3>
-      <p>Advanced capabilities for complex AI challenges.</p>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Vector Databases & Search</h4>
-          <ul>
-            <li>High-performance vector DB implementations</li>
-            <li>Disk-based indices for billion-scale vectors</li>
-            <li>Hybrid search (vector + keyword)</li>
-            <li>Real-time indexing & updates</li>
-            <li>Multi-modal embedding search</li>
-            <li>Semantic search optimization</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h4>Model Optimization</h4>
-          <ul>
-            <li>Quantization & pruning techniques</li>
-            <li>TensorRT & ONNX optimization</li>
-            <li>Knowledge distillation</li>
-            <li>Low-latency inference optimization</li>
-            <li>Memory footprint reduction</li>
-            <li>Throughput maximization</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h4>MLOps & Infrastructure</h4>
-          <ul>
-            <li>CI/CD pipelines for ML models</li>
-            <li>Experiment tracking & versioning</li>
-            <li>Model registry & governance</li>
-            <li>Monitoring & observability</li>
-            <li>Automated retraining pipelines</li>
-            <li>Feature stores & data versioning</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h4>RAG & Knowledge Systems</h4>
-          <ul>
-            <li>Retrieval-augmented generation systems</li>
-            <li>Document processing pipelines</li>
-            <li>Chunking & embedding strategies</li>
-            <li>Context window optimization</li>
-            <li>Multi-source knowledge integration</li>
-            <li>Query optimization & caching</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h4>Performance Engineering</h4>
-          <ul>
-            <li>Latency optimization (P50, P95, P99)</li>
-            <li>Throughput & capacity planning</li>
-            <li>Cost-performance optimization</li>
-            <li>Profiling & bottleneck analysis</li>
-            <li>Stress testing & load simulation</li>
-            <li>Failure recovery & resilience</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h4>Consulting</h4>
-          <ul>
-            <li>Architecture review & recommendations</li>
-            <li>Technical audits & assessments</li>
-            <li>Best practices documentation</li>
-            <li>Technology stack evaluation</li>
-            <li>Strategic AI roadmap planning</li>
-          </ul>
-        </div>
-      </div>
-    </section>
 
     <!-- Technology Stack -->
-    <section class="tech-stack-section">
-      <div class="section-header">
-        <h2>Technology Stack</h2>
-        <p>
-          We work with industry-leading tools and frameworks to build
-          scalable, production-ready AI systems.
-        </p>
-      </div>
+    <section class="w-full py-24 md:py-32 bg-transparent relative border-t border-navy-800" id="tech-stack">
 
-      <div class="tech-grid">
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">🧠</div>
-            <h3>ML Frameworks</h3>
-          </div>
-          <div class="tech-list">
-            <span class="tech-badge">PyTorch</span>
-            <span class="tech-badge">TensorFlow</span>
-            <span class="tech-badge">JAX</span>
-            <span class="tech-badge">Hugging Face Transformers</span>
-            <span class="tech-badge">scikit-learn</span>
-            <span class="tech-badge">XGBoost</span>
-            <span class="tech-badge">LightGBM</span>
+      <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="mb-16 flex flex-col md:flex-row justify-between items-end gap-6 flow-reveal">
+          <div class="max-w-3xl text-left">
+            <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">Technology Stack</h2>
+            <p class="text-lg text-navy-400 font-medium">Industry-leading infrastructure and frameworks mapped for
+              deterministic scale.</p>
           </div>
         </div>
 
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">🚀</div>
-            <h3>Deployment</h3>
-          </div>
-          <div class="tech-list">
-            <span class="tech-badge">Triton Inference Server</span>
-            <span class="tech-badge">vLLM</span>
-            <span class="tech-badge">TensorRT</span>
-            <span class="tech-badge">ONNX Runtime</span>
-            <span class="tech-badge">TorchServe</span>
-            <span class="tech-badge">FastAPI</span>
-            <span class="tech-badge">Ray Serve</span>
-          </div>
-        </div>
+        <!-- Dual Pane Layout -->
+        <div
+          class="flex flex-col md:flex-row border border-white/10 rounded-3xl overflow-hidden bg-navy-950/50 backdrop-blur-xl shadow-2xl flow-panel">
 
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">☁️</div>
-            <h3>Infrastructure</h3>
-          </div>
-          <div class="tech-list">
-            <span class="tech-badge">Kubernetes</span>
-            <span class="tech-badge">Docker</span>
-            <span class="tech-badge">Terraform</span>
-            <span class="tech-badge">Ansible</span>
-            <span class="tech-badge">AWS</span>
-            <span class="tech-badge">GCP</span>
-            <span class="tech-badge">Azure</span>
-            <span class="tech-badge">CUDA</span>
-            <span class="tech-badge">cuDNN</span>
-          </div>
-        </div>
+          <!-- Left Pane: Menu -->
+          <div
+            class="w-full md:w-1/3 bg-navy-950/80 border-b md:border-b-0 md:border-r border-white/5 p-6 md:p-8 flex flex-col gap-2">
 
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">⚡</div>
-            <h3>Data Processing</h3>
-          </div>
-          <div class="tech-list">
-            <span class="tech-badge">Apache Spark</span>
-            <span class="tech-badge">Kafka</span>
-            <span class="tech-badge">Flink</span>
-            <span class="tech-badge">Airflow</span>
-            <span class="tech-badge">Pandas</span>
-            <span class="tech-badge">Polars</span>
-            <span class="tech-badge">DuckDB</span>
-            <span class="tech-badge">PostgreSQL</span>
-          </div>
-        </div>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-frameworks">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">ML Frameworks</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[01]</span>
+              </div>
+            </button>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-deployment">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">Deployment</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[02]</span>
+              </div>
+            </button>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-infrastructure">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">Infrastructure</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[03]</span>
+              </div>
+            </button>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-data">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">Data Processing</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[04]</span>
+              </div>
+            </button>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-vector">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">Vector Databases</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[05]</span>
+              </div>
+            </button>
+            <button
+              class="matrix-btn group w-full text-left px-5 py-4 rounded-xl transition-all duration-300 border-l-2 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white"
+              data-target="m-mlops">
+              <div class="flex items-center justify-between">
+                <span class="font-bold tracking-wide">MLOps</span>
+                <span class="font-mono text-xs text-navy-600 group-hover:text-navy-400 transition-colors">[06]</span>
+              </div>
+            </button>
 
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">🔍</div>
-            <h3>Vector Databases</h3>
           </div>
-          <div class="tech-list">
-            <span class="tech-badge">Faiss</span>
-            <span class="tech-badge">Milvus</span>
-            <span class="tech-badge">Qdrant</span>
-            <span class="tech-badge">Weaviate</span>
-            <span class="tech-badge">Pinecone</span>
-            <span class="tech-badge">ChromaDB</span>
-          </div>
-        </div>
 
-        <div class="tech-card">
-          <div class="tech-card-header">
-            <div class="tech-icon">📊</div>
-            <h3>MLOps</h3>
-          </div>
-          <div class="tech-list">
-            <span class="tech-badge">MLflow</span>
-            <span class="tech-badge">Weights & Biases</span>
-            <span class="tech-badge">DVC</span>
-            <span class="tech-badge">Kubeflow</span>
-            <span class="tech-badge">Seldon</span>
-            <span class="tech-badge">Prometheus</span>
-            <span class="tech-badge">Grafana</span>
+          <!-- Right Pane: Content Grid -->
+          <div class="w-full md:w-2/3 p-6 md:p-10 relative min-h-[450px] bg-navy-900/20">
+
+            <!-- ML Frameworks Content -->
+            <div id="m-frameworks"
+              class="matrix-content active transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-100 z-10 pointer-events-auto">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">PyTorch</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Core Training</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">TensorFlow
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Prod Serving</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">JAX</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">High-Perf AutoDiff</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">HF Transformers
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">LLM Foundation</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">scikit-learn
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Classic ML</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">XGBoost</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Gradient Boosting</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">LightGBM</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Fast Gradient Trees</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deployment Content -->
+            <div id="m-deployment"
+              class="matrix-content transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-0 z-0 pointer-events-none">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Triton Server
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">NVIDIA Inference</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">vLLM</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">High-Throughput LLMs</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">TensorRT</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">GPU Optimization</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">ONNX Runtime
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Cross-Platform Exec</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">TorchServe
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">PyTorch Models</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">FastAPI</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Async API Routers</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Ray Serve</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Distributed Serving</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Infrastructure Content -->
+            <div id="m-infrastructure"
+              class="matrix-content transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-0 z-0 pointer-events-none">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Kubernetes
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Orchestration</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Docker</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Containerization</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Terraform</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">IaC Provisioning</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Ansible</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Config Mgmt</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">AWS / Azure /
+                    GCP</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Cloud Compute</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">CUDA & cuDNN
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">GPU Acceleration</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Processing Content -->
+            <div id="m-data"
+              class="matrix-content transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-0 z-0 pointer-events-none">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Apache Spark
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Distributed processing</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Kafka & Flink
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Stream processing</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Airflow</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Pipeline Orchestration</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Pandas & Polars
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Dataframes</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">DuckDB</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">In-process SQL OLAP</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">PostgreSQL
+                  </div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Relational State</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Vector Databases Content -->
+            <div id="m-vector"
+              class="matrix-content transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-0 z-0 pointer-events-none">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Faiss</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Core Similarity</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Milvus</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Cloud-native Vector DB</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Qdrant</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Rust-based Engine</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Weaviate</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Hybrid Search DB</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Pinecone</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Managed Vector Search</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">ChromaDB</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">AI-native OSS Embed DB</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- MLOps Content -->
+            <div id="m-mlops"
+              class="matrix-content transition-opacity duration-300 absolute inset-6 md:inset-10 opacity-0 z-0 pointer-events-none">
+
+              <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">MLflow</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Lifecycle Tracking</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Weights &
+                    Biases</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Experiment Logging</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">DVC</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Data Versioning</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Kubeflow</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">K8s ML Toolkit</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">Seldon</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Model Deployment</div>
+                </div>
+                <div
+                  class="p-4 border border-white/5 bg-navy-900/40 rounded-lg hover:border-royal-500/30 hover:bg-royal-900/20 transition-colors cursor-crosshair group">
+                  <div class="font-mono text-white text-sm group-hover:text-royal-400 transition-colors">
+                    Prometheus/Grafana</div>
+                  <div class="text-xs text-navy-500 font-mono mt-1">Metrics Observability</div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
     </section>
 
     <!-- Service Packages -->
-    <section>
-      <h3>How We Work</h3>
-      <p>Flexible engagement models to match your needs.</p>
-
-      <div class="cards">
-        <div class="card">
-          <h4>Project-Based</h4>
-          <p>
-            Fixed-scope projects with defined deliverables and timelines.
-            Ideal for specific implementations or migrations.
-          </p>
-          <ul>
-            <li>Clear scope & deliverables</li>
-            <li>Fixed timeline & budget</li>
-            <li>Complete documentation</li>
-            <li>Knowledge transfer included</li>
-          </ul>
+    <section class="w-full py-24 bg-navy-950">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="mb-16 text-center max-w-3xl mx-auto flow-reveal">
+          <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-4">How We Work</h2>
+          <p class="text-lg text-navy-400 font-medium">Flexible engagement models to match your enterprise needs and
+            engineering constraints.</p>
         </div>
 
-        <div class="card">
-          <h4>Retainer</h4>
-          <p>
-            Ongoing partnership for continuous development, optimization, and
-            support. Perfect for evolving AI systems.
-          </p>
-          <ul>
-            <li>Dedicated team allocation</li>
-            <li>Flexible scope adjustments</li>
-            <li>Priority support & response</li>
-            <li>Monthly optimization reviews</li>
-          </ul>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+          <!-- Project-Based -->
+          <div
+            class="flow-scale why-card bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-3xl p-10 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300"
+            style="transition-delay:0s">
+            <h4 class="text-2xl font-bold text-white mb-4 tracking-tight">Project-Based Acceleration</h4>
+            <p class="text-navy-400 leading-relaxed mb-8">
+              Fixed-scope engineering projects with defined architecture deliverables and deployment timelines. Ideal
+              for specific model implementations or infrastructure migrations.
+            </p>
+            <ul class="space-y-4 text-navy-300 font-medium">
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Clear scope & deliverables
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Fixed timeline & budget bounds
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Comprehensive architectural documentation
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Guided deployment & knowledge transfer
+              </li>
+            </ul>
+          </div>
 
-        <div class="card">
-          <h4>Consulting</h4>
-          <p>
-            Expert guidance for architecture, strategy, and technical
-            decisions. Great for planning and audits.
-          </p>
-          <ul>
-            <li>Architecture review & design</li>
-            <li>Technology recommendations</li>
-            <li>Performance audits</li>
-            <li>Team training & workshops</li>
-          </ul>
+          <!-- Retainer -->
+          <div
+            class="flow-scale why-card bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-royal-500/30 rounded-3xl p-10 relative overflow-hidden shadow-2xl shadow-royal-900/20 hover:border-royal-500/60 hover:-translate-y-1 transition-all duration-300"
+            style="transition-delay:0.15s">
+            <div
+              class="absolute top-0 right-0 py-1.5 px-4 bg-royal-600/20 border-b border-l border-royal-500/30 rounded-bl-xl text-royal-400 text-xs font-bold uppercase tracking-wider">
+              Most Selected
+            </div>
+            <h4 class="text-2xl font-bold text-white mb-4 tracking-tight mt-2">Continuous Partnership</h4>
+            <p class="text-navy-400 leading-relaxed mb-8">
+              Embedded, ongoing partnership for continuous model development, latency optimization, and infrastructure
+              scaling. Perfect for continually evolving AI systems.
+            </p>
+            <ul class="space-y-4 text-navy-300 font-medium">
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Dedicated senior engineering allocation
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Agile, flexible scope adjustments
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Priority incident response SLAs
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Monthly cloud cost & optimization reviews
+              </li>
+            </ul>
+          </div>
+
+          <!-- Consulting -->
+          <div
+            class="flow-scale why-card bg-navy-950/80 backdrop-blur-md hover:bg-navy-900 border border-navy-800 rounded-3xl p-10 hover:border-royal-500/50 hover:shadow-2xl hover:shadow-royal-900/20 hover:-translate-y-1 transition-all duration-300"
+            style="transition-delay:0.30s">
+            <h4 class="text-2xl font-bold text-white mb-4 tracking-tight">Strategic Consulting</h4>
+            <p class="text-navy-400 leading-relaxed mb-8">
+              Expert guidance for architecture, strategy, and technical decisions. Great for roadmap planning, system
+              audits, and team training.
+            </p>
+            <ul class="space-y-4 text-navy-300 font-medium">
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Architecture review & design
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Technology recommendations
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Performance & latency audits
+              </li>
+              <li class="flex items-center gap-3">
+                <div
+                  class="w-6 h-6 rounded-full bg-royal-900/40 border border-royal-500/30 flex items-center justify-center text-royal-400">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 6 9 17l-5-5" />
+                  </svg>
+                </div>
+                Engineering team training & workshops
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="text-center">
-      <h3>Ready to Get Started?</h3>
-      <p>
-        Let's discuss your AI infrastructure needs and create a solution that
-        works for you.
-      </p>
-      <div class="hero-buttons" style="margin-top: 2rem; display: flex; justify-content: center">
-        <a href="contact.html" class="btn-primary">Schedule a Consultation</a>
-        <a href="case-studies.html" class="btn-outline" style="margin-left: 1rem">See Our Work</a>
+    <section class="w-full py-24 bg-gradient-to-b from-navy-950 to-black relative overflow-hidden">
+      <!-- Background subtle glow -->
+      <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-royal-900/20 blur-[120px] rounded-full pointer-events-none">
+      </div>
+
+      <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+        <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight mb-6 flow-cta">Ready to scale your AI
+          infrastructure?
+        </h2>
+        <p class="text-xl text-navy-400 mb-10 max-w-2xl mx-auto font-medium flow-cta" style="transition-delay:0.12s">
+          Schedule a technical consultation to
+          discuss your specific infrastructure and scaling engineering needs.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center flow-cta"
+          style="transition-delay:0.24s">
+          <a href="contact.html"
+            class="px-8 py-4 bg-gradient-to-r from-royal-600 to-royal-800 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-royal-500/25 transition-all w-full sm:w-auto text-center border border-royal-500/30">Book
+            a Consultation</a>
+          <a href="case-studies.html"
+            class="px-8 py-4 bg-navy-900 border border-navy-700 text-white font-semibold rounded-lg hover:bg-navy-800 transition-colors w-full sm:w-auto text-center">View
+            Case Studies</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-brand">
-        <img src="assets/logo.webp" alt="MacroInception" />
-        <p>AI infrastructure for enterprises</p>
+  <!-- Enterprise Footer -->
+  <footer class="bg-navy-950 border-t border-navy-900 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div class="md:col-span-2">
+          <div class="flex items-center gap-2 mb-6 opacity-90 hover:opacity-100 transition-opacity">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </div>
+          <p class="text-navy-400 font-medium max-w-sm leading-relaxed">
+            Elite AI infrastructure and systems engineering exclusively for enterprises tackling extreme data volume and
+            low-latency inference bottlenecks.
+          </p>
+        </div>
+
+        <!-- Services Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Capabilities</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Integration</a>
+            </li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Deployment</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Pipelines</a></li>
+            <li><a href="services.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Clusters</a></li>
+          </ul>
+        </div>
+
+        <!-- Company Column -->
+        <div>
+          <h5 class="text-white font-semibold mb-6 tracking-wide text-sm border-b border-navy-800 pb-2 inline-block">
+            Directory</h5>
+          <ul class="space-y-4 font-medium text-sm">
+            <li><a href="about.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">About</a></li>
+            <li><a href="case-studies.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Engineering</a>
+            </li>
+            <li><a href="pricing.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Operations</a></li>
+            <li><a href="contact.html"
+                class="text-navy-400 hover:text-royal-400 transition-colors flex items-center gap-2">Transmit</a></li>
+          </ul>
+        </div>
       </div>
 
-      <div class="footer-links">
-        <div class="footer-column">
-          <h5>Services</h5>
-          <a href="services.html">AI Systems</a>
-          <a href="services.html">Deployment</a>
-          <a href="services.html">Infrastructure</a>
+      <div
+        class="pt-8 border-t border-navy-900 flex flex-col md:flex-row items-center justify-between gap-4 text-xs tracking-wider">
+        <p class="text-navy-500 truncate">© 2025 MacroInception. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="https://linkedin.com" target="_blank" rel="noopener"
+            class="text-navy-500 hover:text-royal-400 transition-colors" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+              <rect x="2" y="9" width="4" height="12" />
+              <circle cx="4" cy="4" r="2" />
+            </svg>
+          </a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Privacy Policy</a>
+          <a href="#" class="text-navy-400 hover:text-royal-400 transition-colors">Terms of Service</a>
         </div>
-        <div class="footer-column">
-          <h5>Company</h5>
-          <a href="about.html">About</a>
-          <a href="case-studies.html">Case Studies</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p>©    MacroInception.com</p>
-      <div class="footer-legal">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
       </div>
     </div>
   </footer>
-  <script src="js/script.js"></script>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Kinetic Storyboard (Specialized Services sticky layout)
+      const cards = document.querySelectorAll('.ss-card');
+      const readout = document.getElementById('ss-index-readout');
+
+      if (cards.length > 0 && readout) {
+        // Also grab the service label in the left HUD
+        const serviceLabel = document.getElementById('ss-service-label');
+
+        // High threshold so the middle of the screen dictates what card is "active"
+        const observerOptions = {
+          root: null,
+          rootMargin: '-40% 0px -40% 0px',
+          threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const index = Array.from(cards).indexOf(entry.target) + 1;
+              readout.textContent = `${index.toString().padStart(2, '0')}/${cards.length.toString().padStart(2, '0')}`;
+
+              // Update the service label in the left HUD
+              if (serviceLabel) {
+                const label = entry.target.dataset.serviceLabel || '';
+                // Brief hide → text swap → show for a clean transition
+                serviceLabel.classList.remove('opacity-100');
+                serviceLabel.style.opacity = '0';
+                setTimeout(() => {
+                  serviceLabel.textContent = label;
+                  serviceLabel.style.opacity = '1';
+                }, 150);
+              }
+
+              // Flash active state on the readout
+              readout.classList.remove('opacity-10', 'text-white');
+              readout.classList.add('opacity-100', 'text-royal-500', 'scale-110');
+
+              setTimeout(() => {
+                readout.classList.remove('opacity-100', 'text-royal-500', 'scale-110');
+                readout.classList.add('opacity-10', 'text-white');
+              }, 400); // 400ms flash
+
+              // Emphasize the active card
+              entry.target.classList.add('border-royal-500/50', 'bg-navy-800/60', 'scale-[1.02]', 'shadow-[0_0_30px_rgba(59,130,246,0.15)]');
+              entry.target.classList.remove('bg-navy-900/40', 'border-white/5', 'scale-[0.98]', 'opacity-50');
+            } else {
+              // De-emphasize inactive cards
+              entry.target.classList.remove('border-royal-500/50', 'bg-navy-800/60', 'scale-[1.02]', 'shadow-[0_0_30px_rgba(59,130,246,0.15)]');
+              entry.target.classList.add('bg-navy-900/40', 'border-white/5', 'scale-[0.98]', 'opacity-50');
+            }
+          });
+        }, observerOptions);
+
+        cards.forEach(card => observer.observe(card));
+      }
+
+      // ── Enhanced Technology Stack Tab Switching ──────────────
+      const matrixBtns = document.querySelectorAll('.matrix-btn');
+      const matrixContents = document.querySelectorAll('.matrix-content');
+
+      // Bootstrap: add tech-chip & tech-name classes to every chip card element
+      matrixContents.forEach(panel => {
+        panel.querySelectorAll('.grid > div').forEach((chip, i) => {
+          chip.classList.add('tech-chip');
+          // Set stagger delay for entrance animation
+          chip.style.animationDelay = `${i * 0.055}s`;
+          // Tag the name span
+          const nameEl = chip.querySelector('div:first-child');
+          if (nameEl) nameEl.classList.add('tech-name');
+        });
+      });
+
+      // Helper: activate a panel with staggered chip entrance
+      function activatePanel(targetId) {
+        // Hide all
+        matrixContents.forEach(c => {
+          c.classList.remove('active', 'opacity-100', 'z-10', 'pointer-events-auto');
+          c.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+        });
+
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        // Re-trigger animation by removing + re-adding .active
+        target.classList.remove('active');
+        // Small frame delay so browser registers the removal
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            target.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+            target.classList.add('opacity-100', 'z-10', 'pointer-events-auto', 'active');
+          });
+        });
+      }
+
+      // Init: mark first button active-tab
+      if (matrixBtns.length > 0) {
+        matrixBtns[0].classList.add('active-tab');
+      }
+
+      matrixBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          // Update active-tab indicator on left menu
+          matrixBtns.forEach(b => b.classList.remove('active-tab'));
+          btn.classList.add('active-tab');
+
+          const targetId = btn.getAttribute('data-target');
+          if (targetId) activatePanel(targetId);
+        });
+      });
+
+    });
+
+    // Mobile menu toggle + hamburger -> X
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      let menuOpen = false;
+      mobileBtn.addEventListener('click', () => {
+        menuOpen = !menuOpen;
+        mobileBtn.classList.toggle('open', menuOpen);
+        if (menuOpen) {
+          mobileMenu.classList.remove('hidden');
+          mobileMenu.style.display = 'flex';
+          setTimeout(() => mobileMenu.classList.remove('opacity-0'), 10);
+          document.body.style.overflow = 'hidden';
+        } else {
+          mobileMenu.classList.add('opacity-0');
+          setTimeout(() => { mobileMenu.classList.add('hidden'); mobileMenu.style.display = ''; }, 300);
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+  </script>
+  <!-- Tailwind JIT Safelist for dynamic JS classes -->
+  <div
+    class="hidden scale-[1.02] shadow-[0_0_30px_rgba(59,130,246,0.15)] translate-y-0 translate-y-4 scale-[0.98] opacity-50 opacity-100 opacity-0 z-10 z-0 pointer-events-auto pointer-events-none scale-110 border-royal-500/50 bg-navy-800/60 bg-navy-900/40 border-white/5 opacity-10 text-white text-royal-500 bg-royal-900/20 border-royal-500 border-transparent hover:bg-navy-800/50 text-navy-400 hover:text-white text-royal-400 hover:opacity-100 text-navy-600 group-hover:text-navy-400">
+  </div>
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script src="js/particles-config.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Flow-reveal IntersectionObserver -->
+  <script>
+    (function () {
+      const FLOW_SELECTORS = '.flow-reveal, .flow-left, .flow-scale, .flow-panel, .flow-cta';
+      const els = document.querySelectorAll(FLOW_SELECTORS);
+      if (!els.length) return;
+
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            // Honour any inline transition-delay already set on the element
+            e.target.classList.add('visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { rootMargin: '0px 0px -60px 0px', threshold: 0.08 });
+
+      els.forEach(el => obs.observe(el));
+    })();
+  </script>
+
 </body>
 
 </html>
