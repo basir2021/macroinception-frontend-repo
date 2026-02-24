@@ -218,13 +218,28 @@
   </style>
 </head>
 
-      <div class="cards contact-cards">
-        <div class="card">
-          <h4>Email</h4>
-          <p style="color: #10b981; font-size: 1.125rem; margin: 1rem 0">
-            official@macroinception.com
-          </p>
-          <p>For general inquiries and project discussions</p>
+<body
+  class="bg-navy-950 font-sans text-navy-400 antialiased selection:bg-royal-500/30 selection:text-white flex flex-col min-h-screen">
+
+  <!-- Particles Background Base -->
+  <div id="particles-js" class="fixed inset-0 z-0 opacity-40 mix-blend-screen pointer-events-none w-full h-full"></div>
+
+  <!-- Navbar -->
+  <nav class="fixed w-full z-50 transition-all duration-300 backdrop-blur-md bg-navy-950/80 border-b border-white/10"
+    id="navbar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <!-- Logo -->
+        <div class="flex-shrink-0 flex items-center">
+          <a href="index.html" class="flex items-center gap-2 group">
+            <div
+              class="relative w-8 h-8 flex items-center justify-center bg-gradient-to-br from-royal-500 to-royal-600 rounded-lg shadow-lg shadow-royal-500/20 group-hover:shadow-royal-500/40 transition-shadow">
+              <span class="text-white font-heading font-bold text-xl tracking-tighter">M</span>
+              <div class="absolute inset-0 border border-white/20 rounded-lg"></div>
+            </div>
+            <span class="font-heading font-bold text-xl text-white tracking-tight">Macro<span
+                class="text-royal-400">Inception</span></span>
+          </a>
         </div>
 
         <!-- Desktop Menu -->
@@ -292,7 +307,7 @@
 
   <!-- Mobile Menu -->
   <div id="mobile-menu"
-    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center gap-6 pt-20 transition-opacity duration-300 opacity-0">
+    class="fixed inset-0 z-40 bg-navy-950/95 backdrop-blur-xl hidden flex-col items-center justify-center space-y-8 pt-20 transition-opacity duration-300 opacity-0">
     <a href="index.html"
       class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Home</a>
     <a href="services.html"
@@ -306,9 +321,7 @@
       class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">About Us</a>
     <a href="#" class="text-2xl font-heading font-semibold text-white hover:text-royal-400 transition-colors">Blog
       (Soon)</a>
-    <a href="contact.html"
-      class="mt-6 px-8 py-3 bg-royal-600 hover:bg-royal-500 text-white rounded-full font-heading font-medium text-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]">Contact
-      Us</a>
+    <a href="contact.html" class="text-2xl font-heading font-semibold text-royal-400 transition-colors">Contact Us</a>
   </div>
 
   <main class="flex-grow relative z-10 bg-transparent pt-32 pb-24">
@@ -638,12 +651,11 @@
       btn.classList.toggle('open', isMenuOpen);
       if (isMenuOpen) {
         menu.classList.remove('hidden');
-        menu.style.display = 'flex';
         setTimeout(() => menu.classList.remove('opacity-0'), 10);
         document.body.style.overflow = 'hidden';
       } else {
         menu.classList.add('opacity-0');
-        setTimeout(() => { menu.classList.add('hidden'); menu.style.display = ''; }, 300);
+        setTimeout(() => menu.classList.add('hidden'), 300);
         document.body.style.overflow = '';
       }
     });
