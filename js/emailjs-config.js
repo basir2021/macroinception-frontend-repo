@@ -9,7 +9,7 @@ const EMAILJS_CONFIG = {
     TEMPLATE_ID: "template_lb4izyn",
 
     // Recipient email address - Where form submissions will be sent
-    RECIPIENT_EMAIL: "official@macroinception.com"
+    RECIPIENT_EMAIL: "ops@macroinception.com"
 };
 
 // Initialize EmailJS
